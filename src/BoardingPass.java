@@ -1,4 +1,12 @@
-public class BoardingPass {
+import java.io.Serializable;
+
+/**
+ * Boarding Pass - CS 180 Project 5
+ *
+ * @author Aryan Wadhwani, Gowri Harish, CS 18000
+ * @version 15th November 2019
+ */
+public class BoardingPass implements Serializable {
     private String firstName;
     private String lastName;
     private int age;

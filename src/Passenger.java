@@ -1,9 +1,16 @@
-public class Passenger {
+import java.io.Serializable;
+/**
+ * Passenger - CS 180 Project 5
+ *
+ * @author Aryan Wadhwani, Gowri Harish, CS 18000
+ * @version 15th November 2019
+ */
+public class Passenger implements Serializable {
     private String firstName;
     private String lastName;
     private String fullName;
     private int age;
-    public BoardingPass boardingPass;
+    private BoardingPass boardingPass;
 
     public Passenger(String firstName, String lastName, int age) {
         this.firstName = firstName;

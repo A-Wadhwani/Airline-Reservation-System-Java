@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -6,7 +7,7 @@ import java.util.Random;
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019
  */
-public class Gate {
+public class Gate implements Serializable {
     private char gateLetter;
     private int gateNumber;
 
@@ -16,8 +17,9 @@ public class Gate {
         this.gateNumber = random.nextInt(18) + 1;
     }
 
-    public String getGate() {
-        return String.format("%s%02d", gateLetter, gateNumber);
+    @Override
+    public String toString(){
+        return String.format("%s%02d",gateLetter,gateNumber);
     }
 
     public Gate(char gateLetter, char gateNumber) {

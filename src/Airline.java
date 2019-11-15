@@ -1,6 +1,13 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Airline {
+/**
+ * Airline - CS 180 Project 5
+ *
+ * @author Aryan Wadhwani, Gowri Harish, CS 18000
+ * @version 15th November 2019
+ */
+public abstract class Airline implements Serializable {
 
     private String description;
     private String airplaneName;
@@ -59,6 +66,7 @@ public abstract class Airline {
 
     public void addPassengers(Passenger passenger) {
         numPassengers++;
+        passenger.setBoardingPass(gate);
         passengers.add(passenger);
     }
 
