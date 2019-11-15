@@ -16,8 +16,8 @@ public class Gate {
         this.gateNumber = random.nextInt(18) + 1;
     }
 
-    public String getGate(){
-        return String.format("%s%02d",gateLetter,gateNumber);
+    public String getGate() {
+        return String.format("%s%02d", gateLetter, gateNumber);
     }
 
     public Gate(char gateLetter, char gateNumber) {
