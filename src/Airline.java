@@ -5,19 +5,16 @@ public abstract class Airline {
     private String description;
     private String airplaneName;
     private int numPassengers;
-    private int maxPassengers;
+    private final int MAX_PASSENGERS = 100;
     private Gate gate;
-    private ArrayList<Passenger> passenger;
+    private ArrayList<Passenger> passengers;
 
-    public Airline(String description, String airplaneName, int numPassengers, int maxPassengers, Gate gate,
-                   ArrayList<Passenger> passengers) {
-
-        this.description = description;
+    public Airline(String airplaneName, String description) {
         this.airplaneName = airplaneName;
-        this.numPassengers = numPassengers;
-        this.maxPassengers = maxPassengers;
-        this.gate = gate;
-        this.passenger = passenger;
+        this.description = description;
+        this.numPassengers = 0;
+        this.gate = new Gate();
+        this.passengers = new ArrayList<>();
     }
 
     public String getDescription() {
@@ -45,11 +42,7 @@ public abstract class Airline {
     }
 
     public int getMaxPassengers() {
-        return maxPassengers;
-    }
-
-    public void setMaxPassengers(int maxPassengers) {
-        this.maxPassengers = maxPassengers;
+        return MAX_PASSENGERS;
     }
 
     public Gate getGate() {
@@ -60,14 +53,14 @@ public abstract class Airline {
         this.gate = gate;
     }
 
-    public ArrayList<Passenger> getPassenger() {
-        return passenger;
+    public ArrayList<Passenger> getPassengers() {
+        return passengers;
     }
 
-    public void setPassengers(ArrayList<Passenger> passenger) {
-        this.passenger = passenger;
+    public void addPassengers(Passenger passenger) {
+        numPassengers++;
+        passengers.add(passenger);
     }
-
 
 }
 
