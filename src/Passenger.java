@@ -10,15 +10,15 @@ public class Passenger {
         this.lastName = lastName;
         this.age = age;
         this.fullName = firstName.substring(0, 1) + " " + lastName;
-        this.boardingPass = new BoardingPass(firstName, lastName, age);
+        this.boardingPass = null;
     }
 
     public BoardingPass getBoardingPass() {
         return boardingPass;
     }
 
-    public void setBoardingPass(BoardingPass boardingPass) {
-        this.boardingPass = boardingPass;
+    public void setBoardingPass(Gate gate) {
+        this.boardingPass = new BoardingPass(firstName, lastName, age, gate);
     }
 
     public String getFirstName() {
