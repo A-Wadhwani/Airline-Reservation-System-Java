@@ -8,7 +8,7 @@ public abstract class Airline {
     Gate gate;
     ArrayList<Passenger> passenger;
 
-    public Airline(String description, String airplaneName, int numPassengers, int maxPassengers, Gate gate, ArrayList<Passengers> passengers) {
+    public Airline(String description, String airplaneName, int numPassengers, int maxPassengers, Gate gate, ArrayList<Passenger> passenger) {
         this.description = description;
         this.airplaneName = airplaneName;
         this.numPassengers = numPassengers;
