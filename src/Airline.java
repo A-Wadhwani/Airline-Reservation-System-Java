@@ -14,10 +14,6 @@ public abstract class Airline {
 
         this.description = description;
         this.airplaneName = airplaneName;
-        this.numPassengers = numPassengers;
-        this.maxPassengers = maxPassengers;
-        this.gate = gate;
-        this.passenger = passenger;
     }
 
     public String getDescription() {
@@ -64,10 +60,7 @@ public abstract class Airline {
         return passenger;
     }
 
-    public void setPassengers(ArrayList<Passenger> passenger) {
-        this.passenger = passenger;
     }
-
 
 }
 
