@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class Airline {
+
     private String description;
     private String airplaneName;
     private int numPassengers;
@@ -10,6 +11,7 @@ public abstract class Airline {
 
     public Airline(String description, String airplaneName, int numPassengers, int maxPassengers, Gate gate,
                    ArrayList<Passenger> passengers) {
+
         this.description = description;
         this.airplaneName = airplaneName;
         this.numPassengers = numPassengers;
