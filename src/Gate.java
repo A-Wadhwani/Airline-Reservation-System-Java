@@ -4,7 +4,7 @@ import java.util.Random;
  * Gate - CS 180 Project 5
  *
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
- * @version Date Month 2019
+ * @version 15th November 2019
  */
 public class Gate {
     private char gateLetter;
