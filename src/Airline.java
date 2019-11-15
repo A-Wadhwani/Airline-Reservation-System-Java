@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 
 public abstract class Airline {
-    String description;
-    String airplaneName;
-    int numPassengers;
-    int maxPassengers;
-    Gate gate;
-    ArrayList<Passenger> passenger;
+    private String description;
+    private String airplaneName;
+    private int numPassengers;
+    private int maxPassengers;
+    private Gate gate;
+    private ArrayList<Passenger> passenger;
 
-    public Airline(String description, String airplaneName, int numPassengers, int maxPassengers, Gate gate, ArrayList<Passengers> passengers) {
+    public Airline(String description, String airplaneName, int numPassengers, int maxPassengers, Gate gate,
+                   ArrayList<Passenger> passengers) {
         this.description = description;
         this.airplaneName = airplaneName;
         this.numPassengers = numPassengers;
