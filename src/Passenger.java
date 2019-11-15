@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 /**
  * Passenger - CS 180 Project 5
  *
@@ -27,8 +26,8 @@ public class Passenger implements Serializable {
         return boardingPass;
     }
 
-    public void setBoardingPass(Gate gate) {
-        this.boardingPass = new BoardingPass(firstName, lastName, age, gate);
+    public void setBoardingPass(Gate gate, String airlineName) {
+        this.boardingPass = new BoardingPass(firstName, lastName, age, gate, airlineName);
     }
 
     public String getFirstName() {
@@ -68,7 +67,7 @@ public class Passenger implements Serializable {
         temp.set(findFirstAirplaneName + 1, Integer.toString(toUpdatePassNum) + "/" + totalPassengers);
         in.close();
 
-        //writing arraylist into file
+        //writing ArrayList into file
         FileOutputStream fos = new FileOutputStream(file);
         PrintWriter pw = new PrintWriter(fos);
         BufferedWriter bw = new BufferedWriter(pw);

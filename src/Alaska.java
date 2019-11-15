@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Alaska - CS 180 Project 5
  *
@@ -15,5 +19,18 @@ public class Alaska extends Airline {
                 "\nWe provide fun snacks, such as pretzels and goldfish." +
                 "\nWe also have comfortable seats, and free WiFi." +
                 "\nWe hope you choose Alaska Airlines for your next itinerary!");
+        try {
+            UpdatePassengerDetails();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void UpdatePassengerDetails() throws IOException {
+        UpdatePassengerDetails("ALASKA");
+    }
+
+    public void addPassengers(Passenger passenger) throws Exception {
+        addPassengers(passenger, "ALASKA");
     }
 }

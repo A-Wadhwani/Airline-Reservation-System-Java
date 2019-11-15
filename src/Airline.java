@@ -1,4 +1,4 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -11,17 +11,53 @@ public abstract class Airline implements Serializable {
 
     private String description;
     private String airplaneName;
+    private String airplaneFullName;
     private int numPassengers;
-    private final int MAX_PASSENGERS = 100;
+    private int maxPassengers;
     private Gate gate;
-    private ArrayList<Passenger> passengers;
+    private ArrayList<String> passengerDetails;
+
 
     public Airline(String airplaneName, String description) {
         this.airplaneName = airplaneName;
         this.description = description;
+        this.airplaneFullName = String.format("%s Airlines", airplaneName);
         this.numPassengers = 0;
         this.gate = new Gate();
-        this.passengers = new ArrayList<>();
+        this.passengerDetails = new ArrayList<>();
+    }
+
+    public String getAirplaneFullName() {
+        return airplaneFullName;
+    }
+
+    protected void UpdatePassengerDetails(String airplaneName) throws IOException {
+        BufferedReader bfr = new BufferedReader(new FileReader("reservations.txt"));
+        passengerDetails = new ArrayList<>();
+        String line;
+        while (!(line = bfr.readLine()).equals("EOF")) {
+            if (line.equals(airplaneName)) {
+                break;
+            }
+        }
+        line = bfr.readLine();
+        int numPassengers = Integer.parseInt(line.substring(0, line.indexOf("/")));
+        int maxPassengers = Integer.parseInt(line.substring(line.indexOf("/") + 1));
+        this.setNumPassengers(numPassengers);
+        this.setMaxPassengers(maxPassengers);
+        bfr.readLine();
+        while (!(line = bfr.readLine()).isBlank()) {
+            addPassengerDetails(line);
+            bfr.readLine();
+        }
+    }
+
+    public ArrayList<String> getPassengerDetails() {
+        return passengerDetails;
+    }
+
+    public void setMaxPassengers(int maxPassengers) {
+        this.maxPassengers = maxPassengers;
     }
 
     public String getDescription() {
@@ -49,7 +85,7 @@ public abstract class Airline implements Serializable {
     }
 
     public int getMaxPassengers() {
-        return MAX_PASSENGERS;
+        return maxPassengers;
     }
 
     public Gate getGate() {
@@ -60,15 +96,21 @@ public abstract class Airline implements Serializable {
         this.gate = gate;
     }
 
-    public ArrayList<Passenger> getPassengers() {
-        return passengers;
+    protected void addPassengerDetails(String passenger) {
+        passengerDetails.add(passenger);
     }
 
-    public void addPassengers(Passenger passenger) {
+    protected void addPassengers(Passenger passenger, String airplaneName) throws Exception {
+        if (numPassengers >= maxPassengers) {
+            throw new Exception("You should not be here.");
+        }
         numPassengers++;
-        passenger.setBoardingPass(gate);
-        passengers.add(passenger);
+        passenger.setBoardingPass(gate, airplaneFullName);
+        passenger.writeToFile(airplaneName);
     }
 
+    public abstract void UpdatePassengerDetails() throws IOException;
+
+    public abstract void addPassengers(Passenger p) throws Exception;
 }
 
