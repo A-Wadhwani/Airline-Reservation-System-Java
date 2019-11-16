@@ -12,25 +12,48 @@ import java.util.Scanner;
  * @version 15th November 2019
  */
 public class ReservationClient {
-    public static void main(String[] args){
-        String hostname = "localhost";
-        String portString;
+
+    private static String handleHostName() {
+        String hostname = GUIMethods.getHostName();
+        if (hostname == null) {
+            return null;
+        }
+        return hostname;
+    }
+
+    private static int handlePort() {
+        String portString = GUIMethods.getPort();
+        try {
+            return Integer.parseInt(portString);
+        } catch (NumberFormatException e) {
+            System.out.println("error 1");
+            //show error for incorrect digits
+            return handlePort();
+        } catch (NullPointerException e) {
+            return -1;
+        }
+    }
+
+    private ReservationClient() {
+        String hostname;
         int port;
-        System.out.println("here");
         Socket socket;
 
         try {
-            hostname = "localhost";
-            //Get Hostname from GUI
-            portString = "55011";
-            //Get PortString from GUI
-            port = Integer.parseInt(portString);
+            hostname = handleHostName();
+            port = handlePort();
+            if (hostname == null || port == -1)
+                return;
             socket = new Socket(hostname, port);
             new ReservationClientRunner(socket);
-            //Display Main Page
-
         } catch (IOException e) {
-            e.printStackTrace();
+            //show Error Message on Failure to Connect.
+            System.out.println("cannot connect");
+            new ReservationClient();
         }
+    }
+
+    public static void main(String[] args) {
+        new ReservationClient();
     }
 }

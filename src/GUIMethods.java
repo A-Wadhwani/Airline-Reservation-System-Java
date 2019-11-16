@@ -8,7 +8,7 @@ import java.awt.*;
  * @version 15th November 2019
  */
 public class GUIMethods {
-    public static String getHostnameAndPort(String message, String title) {
+    private static String getHostnameAndPort(String message, String title) {
         ImageIcon icon = new ImageIcon("JavaCup.png");
         return (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION,
                 icon, null, "");
@@ -22,15 +22,16 @@ public class GUIMethods {
         frame.add(new JButton("East"), BorderLayout.EAST);
         frame.add(new JButton("West"), BorderLayout.WEST);
         frame.add(new JButton("Center"), BorderLayout.CENTER);
-        frame.setSize(400,250);
+        frame.setSize(400, 250);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public static String getHostName() {
-        return getHostnameAndPort("What is the HostName you'd like to connect to?","Hostname?");
+        return getHostnameAndPort("What is the HostName you'd like to connect to?", "Hostname?");
     }
-    public static String getPort(){
+
+    public static String getPort() {
         return getHostnameAndPort("What is the port you'd like to connect to?", "Port?");
     }
 }

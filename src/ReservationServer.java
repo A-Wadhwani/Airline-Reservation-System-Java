@@ -29,8 +29,8 @@ public class ReservationServer {
                 System.out.println("bye");
                 break;
             }
-            ReservationServerMainRequestHandler mainRequestHandler = new ReservationServerMainRequestHandler(clientSocket);
-            Thread mainHandlerThread = new Thread(mainRequestHandler);
+            ReservationRequestHandler requestHandler = new ReservationRequestHandler(clientSocket);
+            Thread mainHandlerThread = new Thread(requestHandler);
             mainHandlerThread.start();
             System.out.printf("Client %d is connected!\n", clientCount++);
         }
