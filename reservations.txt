@@ -1,11 +1,13 @@
 ALASKA
-3/100
+4/100
 Alaska passenger list
 A. NARAIN, 20
 ---------------------ALASKA
 K. ABHYANKAR, 19
 ---------------------ALASKA
 N. CLAYMAN, 19
+---------------------ALASKA
+P. PUNEKAR, 20
 ---------------------ALASKA
 
 DELTA
