@@ -3,15 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * _____ - CS 180 Homework _
- * <p>
- * <p>
- * Sources:
+ * Hello 1 - CS 180 Project 5
  *
- * </p>
- *
- * @author Aryan Wadhwani, wadhwani@purdue.edu, CS 18000
- * @version Date Month 2019
+ * @author Aryan Wadhwani, Gowri Harish, CS 18000
+ * @version 15th November 2019
  */
 public class hello1 {
 
