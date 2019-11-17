@@ -1,21 +1,33 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public class hello {
 
 
     public static void main(String[] args) throws Exception {
-        Frame f1 = new Frame();
-        f1.setSize(500,500);
-        hello1 test = new hello1();
-        f1.add(test.showGUI());
+
+        JFrame f1 = new JFrame();
+        f1.setSize(500,600);
+
+        beforeBooking test = new beforeBooking();
+
+        f1.setTitle("Purdue Flight Reservation System");
+        f1.setLocationRelativeTo(null);
+
+        f1.add(test.getPanel());
         f1.setVisible(true);
-        while(true) {
-            System.out.println(test.response());
-        }
+
+        beforeBookingPanelChange test1 = new beforeBookingPanelChange();
+        f1.add(test1.getPanel());
+
+        chooseFlightFromDropDown test2 = new chooseFlightFromDropDown();
+        f1.add(test2.getPanel());
+
+        Delta delta = new Delta();
+        JFrame jFrame;
+        jFrame = test2.getPopUp(delta);
+        jFrame.setVisible(true);
     }
 
 }

@@ -14,24 +14,17 @@ public class GUIMethods {
                 icon, null, "");
     }
 
-    public static void goToBookFlight() {
-        JFrame frame = new JFrame("BorderLayout Example");
-        frame.setLayout(new BorderLayout());
-        frame.add(new JButton("North"), BorderLayout.NORTH);
-        frame.add(new JButton("South"), BorderLayout.SOUTH);
-        frame.add(new JButton("East"), BorderLayout.EAST);
-        frame.add(new JButton("West"), BorderLayout.WEST);
-        frame.add(new JButton("Center"), BorderLayout.CENTER);
-        frame.setSize(400, 250);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
     public static String getHostName() {
         return getHostnameAndPort("What is the HostName you'd like to connect to?", "Hostname?");
     }
 
     public static String getPort() {
         return getHostnameAndPort("What is the port you'd like to connect to?", "Port?");
+    }
+
+    public static String conformInfo(String message){
+        ImageIcon icon = new ImageIcon("JavaCup.png");
+        return (String) JOptionPane.showInputDialog(null, message, "Confirm info",
+                JOptionPane.YES_NO_OPTION, icon, null, "");
     }
 }
