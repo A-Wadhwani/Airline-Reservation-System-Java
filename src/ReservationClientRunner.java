@@ -75,7 +75,7 @@ public class ReservationClientRunner implements KeyListener {
             handleStageEight(writeObjToServer, readObjFromServer);
             */
         } catch (IOException e) {
-            System.out.println("we're done.");
+            GUIMethods.showErrorMessage("Client Disconnect");
         }
     }
 

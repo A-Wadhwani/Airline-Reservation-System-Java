@@ -17,17 +17,26 @@ public class hello1 {
 
     String x = null;
 
-    public Panel showGUI(){
+    public Panel returnPanel() {
         Panel f = new Panel();
         Button b1 = new Button("Hello");
-        f.setSize(500,500);
+        Button b2 = new Button("Exit");
+        f.setSize(500, 500);
+        f.setLayout(new FlowLayout());
         f.add(b1);
+        f.add(b2);
         f.setVisible(true);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                x = "WmjksjdoiwajdoiE";
                 f.setVisible(false);
+                x = "hi";
+            }
+        });
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
         return f;

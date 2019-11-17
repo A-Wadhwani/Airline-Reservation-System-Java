@@ -14,17 +14,9 @@ public class GUIMethods {
                 icon, null, "");
     }
 
-    public static void goToBookFlight() {
-        JFrame frame = new JFrame("BorderLayout Example");
-        frame.setLayout(new BorderLayout());
-        frame.add(new JButton("North"), BorderLayout.NORTH);
-        frame.add(new JButton("South"), BorderLayout.SOUTH);
-        frame.add(new JButton("East"), BorderLayout.EAST);
-        frame.add(new JButton("West"), BorderLayout.WEST);
-        frame.add(new JButton("Center"), BorderLayout.CENTER);
-        frame.setSize(400, 250);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
+    public static void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error in Program", JOptionPane.ERROR_MESSAGE,
+                null);
     }
 
     public static String getHostName() {

@@ -8,14 +8,13 @@ public class hello {
 
 
     public static void main(String[] args) throws Exception {
-        Frame f1 = new Frame();
-        f1.setSize(500,500);
+        Frame mainFrame = new Frame();
+        mainFrame.setSize(300, 300);
         hello1 test = new hello1();
-        f1.add(test.showGUI());
-        f1.setVisible(true);
-        while(true) {
-            System.out.println(test.response());
-        }
+        mainFrame.add(test.returnPanel());
+        mainFrame.setVisible(true);
+        System.out.println(test.response());
+        System.out.println("bye");
     }
 
 }
