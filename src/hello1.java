@@ -43,7 +43,7 @@ public class hello1 {
     }
 
     public String response() throws InterruptedException {
-        if(x==null) {
+        if (x == null) {
             Thread.sleep(10);
             return response();
         }

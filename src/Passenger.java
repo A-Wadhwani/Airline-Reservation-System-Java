@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 /**
  * Passenger - CS 180 Project 5
  *
@@ -22,33 +23,34 @@ public class Passenger implements Serializable {
         this.boardingPass = null;
     }
 
-    public BoardingPass getBoardingPass() {
+    public synchronized BoardingPass getBoardingPass() {
         return boardingPass;
     }
 
-    public void setBoardingPass(Gate gate, String airlineName) {
+    public synchronized void setBoardingPass(Gate gate, String airlineName) {
         this.boardingPass = new BoardingPass(firstName, lastName, age, gate, airlineName);
     }
 
-    public String getFirstName() {
+    public synchronized String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
+    public synchronized String getLastName() {
         return lastName;
     }
 
-    public String getFullName() {
+    public synchronized String getFullName() {
         return fullName;
     }
 
-    public int getAge() {
+    public synchronized int getAge() {
         return age;
     }
 
-    public void writeToFile(String airplaneName) throws IOException {
+    public synchronized void writeToFile(String airplaneName) throws IOException {
 
-        //reading and updating arraylist
+        //reading and updating ArrayList
+        String airplaneNameInProperCase = airplaneName.charAt(0) + airplaneName.substring(1).toLowerCase();
         ArrayList<String> temp = new ArrayList<>();
         String toAdd = this.fullName + ", " + this.age;
         File file = new File("reservations.txt");
@@ -58,8 +60,17 @@ public class Passenger implements Serializable {
         }
         int findFirstAirplaneName = temp.indexOf(airplaneName);
         int placeToAdd = temp.lastIndexOf("---------------------" + airplaneName);
-        temp.add(placeToAdd, toAdd);
-        temp.add(placeToAdd, "---------------------" + airplaneName);
+        if (placeToAdd == -1) {
+            placeToAdd = temp.lastIndexOf(airplaneNameInProperCase + " passenger list") + 1;
+            System.out.println(airplaneNameInProperCase + "  passenger list");
+            System.out.println(placeToAdd);
+
+            temp.add(placeToAdd, "---------------------" + airplaneName);
+            temp.add(placeToAdd, toAdd);
+        } else {
+            temp.add(placeToAdd, toAdd);
+            temp.add(placeToAdd, "---------------------" + airplaneName);
+        }
         String passNum = temp.get(temp.indexOf(airplaneName) + 1).split("/")[0];
         String totalPassengers = temp.get(temp.indexOf(airplaneName) + 1).split("/")[1];
         int toUpdatePassNum = Integer.parseInt(passNum);

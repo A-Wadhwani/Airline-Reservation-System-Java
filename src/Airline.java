@@ -27,11 +27,11 @@ public abstract class Airline implements Serializable {
         this.passengerDetails = new ArrayList<>();
     }
 
-    public String getAirplaneFullName() {
+    public synchronized String getAirplaneFullName() {
         return airplaneFullName;
     }
 
-    protected void UpdatePassengerDetails(String airplaneName) throws IOException {
+    protected synchronized void UpdatePassengerDetails(String airplaneName) throws IOException {
         BufferedReader bfr = new BufferedReader(new FileReader("reservations.txt"));
         passengerDetails = new ArrayList<>();
         String line;
@@ -52,55 +52,60 @@ public abstract class Airline implements Serializable {
         }
     }
 
-    public ArrayList<String> getPassengerDetails() {
+    public synchronized ArrayList<String> getPassengerDetails() {
+        try {
+            this.UpdatePassengerDetails();
+        } catch (IOException e) {
+            GUIMethods.showErrorMessage("SOMETHING WENT REALLY WRONG WITH AIRLINE");
+        }
         return passengerDetails;
     }
 
-    public void setMaxPassengers(int maxPassengers) {
+    public synchronized void setMaxPassengers(int maxPassengers) {
         this.maxPassengers = maxPassengers;
     }
 
-    public String getDescription() {
+    public synchronized String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public synchronized void setDescription(String description) {
         this.description = description;
     }
 
-    public String getAirplaneName() {
+    public synchronized String getAirplaneName() {
         return airplaneName;
     }
 
-    public void setAirplaneName(String airplaneName) {
+    public synchronized void setAirplaneName(String airplaneName) {
         this.airplaneName = airplaneName;
     }
 
-    public int getNumPassengers() {
+    public synchronized int getNumPassengers() {
         return numPassengers;
     }
 
-    public void setNumPassengers(int numPassengers) {
+    public synchronized void setNumPassengers(int numPassengers) {
         this.numPassengers = numPassengers;
     }
 
-    public int getMaxPassengers() {
+    public synchronized int getMaxPassengers() {
         return maxPassengers;
     }
 
-    public Gate getGate() {
+    public synchronized Gate getGate() {
         return gate;
     }
 
-    public void setGate(Gate gate) {
+    public synchronized void setGate(Gate gate) {
         this.gate = gate;
     }
 
-    protected void addPassengerDetails(String passenger) {
+    protected synchronized void addPassengerDetails(String passenger) {
         passengerDetails.add(passenger);
     }
 
-    protected void addPassengers(Passenger passenger, String airplaneName) throws Exception {
+    protected synchronized void addPassengers(Passenger passenger, String airplaneName) throws Exception {
         if (numPassengers >= maxPassengers) {
             throw new Exception("You should not be here.");
         }

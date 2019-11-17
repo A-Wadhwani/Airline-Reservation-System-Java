@@ -18,8 +18,8 @@ public class Gate implements Serializable {
     }
 
     @Override
-    public String toString(){
-        return String.format("%s%02d",gateLetter,gateNumber);
+    public String toString() {
+        return String.format("%s%02d", gateLetter, gateNumber);
     }
 
     public Gate(char gateLetter, char gateNumber) {
