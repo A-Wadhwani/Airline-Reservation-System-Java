@@ -27,6 +27,12 @@ public class GUIMethods {
         return getHostnameAndPort("What is the port you'd like to connect to?", "Port?");
     }
 
+    public static void thankYouMessage(){
+        ImageIcon icon = new ImageIcon("JavaCup.png");
+        JOptionPane.showMessageDialog(null,"Thank you for using the Purdue University " +
+                "Airline Management System!");
+    }
+
     public static String conformInfo(String message){
         ImageIcon icon = new ImageIcon("JavaCup.png");
         return (String) JOptionPane.showInputDialog(null, message, "Confirm info",

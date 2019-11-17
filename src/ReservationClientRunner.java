@@ -89,6 +89,7 @@ public class ReservationClientRunner implements KeyListener {
     private void handleStageFour(BufferedWriter bw, BufferedReader br) throws IOException {
         Scanner sc = new Scanner(System.in);
         String scLine = sc.next();
+        System.out.println("What's wrong with you");
         //TODO: Get Selected Item in GUI as a string and pass it through.
         while (!scLine.equals("EXIT")) { //TODO: Until it's time to exit.
             canAccess = true;
@@ -154,6 +155,7 @@ public class ReservationClientRunner implements KeyListener {
 
     private void handleSpecialWindow(BufferedWriter bw, BufferedReader br) {
         try {
+            System.out.println("What's wrong with you");
             writeToServer.write("\\");
             writeToServer.newLine();
             writeToServer.flush();
@@ -162,6 +164,7 @@ public class ReservationClientRunner implements KeyListener {
             ArrayList<String> passengerDetails = new ArrayList<>();
             while (!(receivedLines = br.readLine()).equals(CLIENT_STOP_LISTENING_STRING)) {
                 passengerDetails.add(receivedLines);
+                System.out.println(receivedLines);
             }
             //TODO: Pass the Array list as a Parameter and pop up another GUI
         } catch (IOException ex) {

@@ -17,18 +17,6 @@ public class Southwest extends Airline {
                 "\nIn addition, we offer flights for much cheaper than other airlines, " +
                 "and offer two free checked bags." +
                 "\nWe hope you choose Southwest for your next flight.");
-        try {
-            UpdatePassengerDetails();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public synchronized void UpdatePassengerDetails() throws IOException {
-        UpdatePassengerDetails("SOUTHWEST");
-    }
-
-    public synchronized void addPassengers(Passenger passenger) throws Exception {
-        addPassengers(passenger, "SOUTHWEST");
-    }
 }

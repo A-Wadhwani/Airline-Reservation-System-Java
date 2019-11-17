@@ -14,18 +14,5 @@ public class Delta extends Airline {
                         "\nPassengers which use T-Mobile as a cell phone get additional benefits." +
                         "\nWe are also happy to offer power outlets in each seat for passenger use." +
                         "\nWe hope you choose to fly Delta as your next Airline.");
-        try {
-            UpdatePassengerDetails();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public synchronized void UpdatePassengerDetails() throws IOException {
-        UpdatePassengerDetails("DELTA");
-    }
-
-    public synchronized void addPassengers(Passenger passenger) throws Exception {
-        addPassengers(passenger, "DELTA");
     }
 }

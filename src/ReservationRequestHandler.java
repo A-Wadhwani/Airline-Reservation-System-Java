@@ -56,9 +56,11 @@ public class ReservationRequestHandler implements Runnable {
 
     private void handleStageFour(BufferedWriter bw, BufferedReader br) throws IOException {
         String receivedInput = br.readLine();
+        System.out.println("What's wrong with you");
         while (!receivedInput.equals(SERVER_STOP_LISTENING_STRING)) {
             if (receivedInput.equals("\\")) {
                 //write the new window stuff
+                System.out.println("What's wrong with you1");
                 handleSpecialWindow(bw, br);
             } else {
                 if (receivedInput.equals("Delta")) {

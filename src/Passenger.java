@@ -47,6 +47,7 @@ public class Passenger implements Serializable {
         return age;
     }
 
+    /*
     public synchronized void writeToFile(String airplaneName) throws IOException {
 
         //reading and updating ArrayList
@@ -90,4 +91,5 @@ public class Passenger implements Serializable {
         pw.close();
         fos.close();
     }
+     */
 }

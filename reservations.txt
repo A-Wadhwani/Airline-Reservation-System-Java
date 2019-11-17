@@ -11,11 +11,13 @@ P. PUNEKAR, 20
 ---------------------ALASKA
 
 DELTA
-2/200
+3/200
 Delta passenger list
 C. WESTMEYER, 19
 ---------------------DELTA
 K. ABHYANKAR, 19
+---------------------DELTA
+A. WADHWANI, 12
 ---------------------DELTA
 
 
