@@ -26,11 +26,11 @@ public class Alaska extends Airline {
         }
     }
 
-    public void UpdatePassengerDetails() throws IOException {
+    public synchronized void UpdatePassengerDetails() throws IOException {
         UpdatePassengerDetails("ALASKA");
     }
 
-    public void addPassengers(Passenger passenger) throws Exception {
+    public synchronized void addPassengers(Passenger passenger) throws Exception {
         addPassengers(passenger, "ALASKA");
     }
 }

@@ -23,25 +23,25 @@ public class BoardingPass implements Serializable {
         this.airlineName = airlineName;
     }
 
-    public Gate getGate() {
+    public synchronized Gate getGate() {
         return gate;
     }
 
-    public void setGate(Gate gate) {
+    public synchronized void setGate(Gate gate) {
         this.gate = gate;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s",firstName,lastName,age,gate,flightNumber,airlineName);
+        return String.format("%s %s %s %s %s %s", firstName, lastName, age, gate, flightNumber, airlineName);
     }
 
-    public String getBoardingPass(){
+    public synchronized String getBoardingPass() {
         return String.format("BOARDING PASS FOR FLIGHT %s WITH %s" +
-                "\nPASSENGER FIRST NAME : %s" +
-                "\nPASSENGER LAST NAME : %s" +
-                "\nPASSENGER AGE : %d" +
-                "\nYou can now begin boarding at Gate %s",
+                        "\nPASSENGER FIRST NAME : %s" +
+                        "\nPASSENGER LAST NAME : %s" +
+                        "\nPASSENGER AGE : %d" +
+                        "\nYou can now begin boarding at Gate %s",
                 flightNumber, airlineName, firstName.toUpperCase(), lastName.toUpperCase(), age, getGate().toString());
     }
 }

@@ -14,6 +14,11 @@ public class GUIMethods {
                 icon, null, "");
     }
 
+    public static void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error in Program", JOptionPane.ERROR_MESSAGE,
+                null);
+    }
+
     public static String getHostName() {
         return getHostnameAndPort("What is the HostName you'd like to connect to?", "Hostname?");
     }

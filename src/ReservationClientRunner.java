@@ -24,12 +24,12 @@ public class ReservationClientRunner implements KeyListener {
     private BufferedWriter writeToServer = null;
     private ObjectOutputStream writeObjToServer = null;
     private ObjectInputStream readObjFromServer = null;
+    private String selectedAirline = null;
 
     private static String SERVER_STOP_LISTENING_STRING = "DONE";
     private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
-    private static String EXIT_STRING = "EXIT";
 
-    class OBJECT_TRANSMITTER {
+    private class OBJECT_TRANSMITTER {
         private int response;
 
         OBJECT_TRANSMITTER(int response) {
@@ -42,9 +42,8 @@ public class ReservationClientRunner implements KeyListener {
                     return CLIENT_STOP_LISTENING_STRING;
                 case 2:
                     return SERVER_STOP_LISTENING_STRING;
-                case 3:
                 default:
-                    return EXIT_STRING;
+                    return "";
             }
         }
     }
@@ -60,14 +59,7 @@ public class ReservationClientRunner implements KeyListener {
             writeToServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             writeToServer.flush();
             initialized = true;
-            handleStageTwo();
-            handleStageThree();
-            handleStageThree();
-            handleStageFour(writeToServer, readFromServer);
-            handleStageFive(writeToServer, readFromServer);
-            handleStageFive(writeToServer, readFromServer);
-            handleStageSix(writeToServer, readFromServer);
-            handleStageSeven(writeToServer, readFromServer);
+            runStages(writeToServer, readFromServer);
             readFromServer.close();
             writeToServer.close();
         /*  writeObjToServer = new ObjectOutputStream(socket.getOutputStream());
@@ -75,8 +67,15 @@ public class ReservationClientRunner implements KeyListener {
             handleStageEight(writeObjToServer, readObjFromServer);
             */
         } catch (IOException e) {
-            System.out.println("we're done.");
+            GUIMethods.showErrorMessage("Client Disconnect");
         }
+    }
+
+    private void runStages(BufferedWriter writeToServer, BufferedReader readFromServer) throws IOException {
+        handleStageTwo();
+        handleStageThree();
+        handleStageThree();
+        handleStageFour(writeToServer, readFromServer);
     }
 
     private void handleStageTwo() {
@@ -91,30 +90,59 @@ public class ReservationClientRunner implements KeyListener {
         Scanner sc = new Scanner(System.in);
         String scLine = sc.next();
         //TODO: Get Selected Item in GUI as a string and pass it through.
-        while (scLine != null) {
+        while (!scLine.equals("EXIT")) { //TODO: Until it's time to exit.
             canAccess = true;
+
             bw.write(scLine);
-            scLine = sc.next();
             bw.newLine();
             bw.flush();
+
             String line;
             StringBuilder description = new StringBuilder();
+
             while (!(line = br.readLine()).equals(CLIENT_STOP_LISTENING_STRING)) {
                 description.append(line).append("\n");
             }
+
+            selectedAirline = scLine;
+            scLine = sc.next();
             //TODO: Pass Description through as a Parameter in the GUI
         }//TODO: End Loop when the button is clicked and continuation occurs
+
         bw.write(SERVER_STOP_LISTENING_STRING);
         bw.newLine();
         bw.flush();
+
+        handleStageFive(writeToServer, readFromServer);
     }
 
-    private void handleStageFive(BufferedWriter bw, BufferedReader br) {
+    private void handleStageFive(BufferedWriter bw, BufferedReader br) throws IOException {
+        boolean confirmSelection = false; //TODO: Get yes or no right here.
+        if (confirmSelection) {
+            bw.write("CONTINUE");
+            bw.newLine();
+            bw.flush();
 
+            bw.write(SERVER_STOP_LISTENING_STRING);
+            bw.newLine();
+            bw.flush();
+
+            handleStageSix(bw, br);
+        } else {
+            bw.write("RETURN");
+            bw.newLine();
+            bw.flush();
+
+            bw.write(SERVER_STOP_LISTENING_STRING);
+            bw.newLine();
+            bw.flush();
+
+            handleStageFour(bw, br);
+        }
     }
 
     private void handleStageSix(BufferedWriter bw, BufferedReader br) {
-
+        handleStageSeven(writeToServer, readFromServer);
     }
 
     private void handleStageSeven(BufferedWriter bw, BufferedReader br) {
@@ -143,10 +171,12 @@ public class ReservationClientRunner implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        //Don't do anything
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        //Don't do anything
     }
 
     @Override

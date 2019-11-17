@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.nio.Buffer;
 
 /**
  * Reservation Server Handler- CS 180 Project 5
@@ -11,7 +12,6 @@ public class ReservationRequestHandler implements Runnable {
     private Socket clientSocket;
     private static String SERVER_STOP_LISTENING_STRING = "DONE";
     private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
-    private static String EXIT_STRING = "EXIT";
 
     private Airline airline;
 
@@ -19,8 +19,7 @@ public class ReservationRequestHandler implements Runnable {
         this.clientSocket = clientSocket;
     }
 
-    public
-    class OBJECT_TRANSMITTER {
+    private class OBJECT_TRANSMITTER {
         private int response;
 
         OBJECT_TRANSMITTER(int response) {
@@ -33,9 +32,8 @@ public class ReservationRequestHandler implements Runnable {
                     return CLIENT_STOP_LISTENING_STRING;
                 case 2:
                     return SERVER_STOP_LISTENING_STRING;
-                case 3:
                 default:
-                    return EXIT_STRING;
+                    return "";
             }
         }
     }
@@ -46,10 +44,14 @@ public class ReservationRequestHandler implements Runnable {
             BufferedReader bfrFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             BufferedWriter bfwToClient = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             bfwToClient.flush();
-            handleStageFour(bfwToClient, bfrFromClient);
+            runEverything(bfwToClient, bfrFromClient);
         } catch (IOException e) {
             System.out.println("Connection Terminated.");
         }
+    }
+
+    private void runEverything(BufferedWriter bw, BufferedReader br) throws IOException {
+        handleStageFour(bw, br);
     }
 
     private void handleStageFour(BufferedWriter bw, BufferedReader br) throws IOException {
@@ -59,14 +61,13 @@ public class ReservationRequestHandler implements Runnable {
                 //write the new window stuff
                 handleSpecialWindow(bw, br);
             } else {
-                System.out.println(receivedInput);
-                if(receivedInput.equals("Delta")) {
+                if (receivedInput.equals("Delta")) {
                     airline = new Delta();
                 }
-                if(receivedInput.equals("Southwest")) {
+                if (receivedInput.equals("Southwest")) {
                     airline = new Southwest();
                 }
-                if(receivedInput.equals("Alaska")) {
+                if (receivedInput.equals("Alaska")) {
                     airline = new Alaska();
                 }
                 bw.write(airline.getDescription());
@@ -78,11 +79,28 @@ public class ReservationRequestHandler implements Runnable {
             }
             receivedInput = br.readLine();
         }
-        System.out.println("You've reached here");
+        handleStageFive(bw, br);
     }
 
-    private void handleStageFive(BufferedWriter bw, BufferedReader br) {
-
+    private void handleStageFive(BufferedWriter bw, BufferedReader br) throws IOException {
+        String receivedInput = br.readLine();
+        boolean canProceed = true;
+        while (!receivedInput.equals(SERVER_STOP_LISTENING_STRING)) {
+            if (receivedInput.equals("\\")) {
+                handleSpecialWindow(bw, br);
+            } else {
+                if (receivedInput.contains("CONTINUE")) {
+                    canProceed = true;
+                } else if (receivedInput.contains("RETURN")) {
+                    canProceed = false;
+                }
+            }
+            receivedInput = br.readLine();
+        }
+        if (canProceed)
+            handleStageSix(bw, br);
+        else
+            handleStageFour(bw, br);
     }
 
     private void handleStageSix(BufferedWriter bw, BufferedReader br) {
