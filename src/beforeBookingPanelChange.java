@@ -8,7 +8,7 @@ public class beforeBookingPanelChange {
     JPanel mainPanel = new JPanel(new BorderLayout());
     Boolean isUsed;
 
-    public beforeBookingPanelChange(){
+    public beforeBookingPanelChange() {
         this.isUsed = false;
     }
 
@@ -49,8 +49,8 @@ public class beforeBookingPanelChange {
     }
 
     public synchronized String response() throws InterruptedException {
-        if (x == null) {
-            Thread.sleep(10);
+        while (x == null) {
+            wait(10);
             return response();
         }
         String returnThisBitch = x;
@@ -62,12 +62,12 @@ public class beforeBookingPanelChange {
         mainPanel.setVisible(b);
     }
 
-    public void setIsUsed(Boolean b){
+    public void setIsUsed(Boolean b) {
         isUsed = b;
     }
 
     public synchronized void waitUp() throws InterruptedException {
-        while (!isUsed){
+        while (!isUsed) {
             wait(10);
         }
     }

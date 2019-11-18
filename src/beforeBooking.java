@@ -20,7 +20,7 @@ public class beforeBooking {
     JPanel mainPanel = new JPanel(new BorderLayout());
     Boolean isUsed;
 
-    public beforeBooking(){
+    public beforeBooking() {
         this.isUsed = false;
     }
 
@@ -78,12 +78,12 @@ public class beforeBooking {
         mainPanel.setVisible(b);
     }
 
-    public void setIsUsed(Boolean b){
+    public void setIsUsed(Boolean b) {
         isUsed = b;
     }
 
     public synchronized void waitUp() throws InterruptedException {
-        while (!isUsed){
+        while (!isUsed) {
             wait(10);
         }
     }
