@@ -13,6 +13,7 @@ public class chooseFlightFromDropDown {
     JPanel mainPanel;
     Boolean isUsed;
     JTextArea content;
+    JButton chooseThisFlight;
 
 
     public chooseFlightFromDropDown() {
@@ -23,6 +24,7 @@ public class chooseFlightFromDropDown {
         this.content = new JTextArea(description);
         content.setEditable(false);
         content.setVisible(true);
+        this.chooseThisFlight = new JButton("Choose this flight");
     }
 
     public JPanel getPanel() {
@@ -43,8 +45,8 @@ public class chooseFlightFromDropDown {
             }
         });
 
+
         JButton exit = new JButton("Exit");
-        JButton chooseThisFlight = new JButton("Choose this flight");
 
         exit.addActionListener(new ActionListener() {
             @Override
@@ -83,8 +85,10 @@ public class chooseFlightFromDropDown {
         exit.setBounds(150, 300, 100, 30);
         chooseThisFlight.setBounds(270, 300, 200, 30);
 
+
         exit.setVisible(true);
         chooseThisFlight.setVisible(true);
+        chooseThisFlight.setEnabled(false);
 
 
         mainPanel.add(title);
@@ -112,6 +116,7 @@ public class chooseFlightFromDropDown {
         lastSelectedFlight = flightName;
         flightName = null;
         //  System.out.println(returnThisBitch);
+        setButtonEnabled();
         return returnThisBitch;
     }
 
@@ -140,4 +145,9 @@ public class chooseFlightFromDropDown {
     public void printDescription() {
         System.out.println(description);
     }
+
+    public void setButtonEnabled(){
+        this.chooseThisFlight.setEnabled(true);
+    }
+
 }

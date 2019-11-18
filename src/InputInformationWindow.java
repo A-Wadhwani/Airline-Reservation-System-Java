@@ -101,7 +101,8 @@ public class InputInformationWindow {
                 System.exit(0);
             }
         });
-
+        panel.revalidate();
+        panel.repaint();
         return panel;
     }
 

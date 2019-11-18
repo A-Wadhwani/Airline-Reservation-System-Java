@@ -77,12 +77,30 @@ public class hello {
 
         chooseFlightFromDropDown.setMainPanel(false);
 
-//
-//        Delta delta = new Delta();
-//        ServerMethods.updatePassengerDetails(delta);
-//        JFrame jFrame;
-//        jFrame = test2.getPopUp(delta);
-//        jFrame.setVisible(true);
+        areYouSure areYouSure = new areYouSure();
+        Airline airline;
+        switch (s){
+            case "Delta":
+                airline = new Delta();
+                break;
+            case "Southwest":
+                airline = new Southwest();
+                break;
+            case "Alaska":
+                airline = new Alaska();
+                break;
+            default:
+                return;
+        }
+        f1.add(areYouSure.getPanel(airline));
+        f1.setVisible(true);
+        areYouSure.setMainPanel(true);
+        f1.revalidate();
+        areYouSure.waitUp();
+        int ans = areYouSure.getAns();
+        System.out.println(ans);
+        areYouSure.setMainPanel(false);
+
     }
 
 }
