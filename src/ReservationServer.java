@@ -38,6 +38,9 @@ public class ReservationServer {
 
     public static void main(String[] args) {
         try {
+            ReservationRequestHandler.delta = new Delta();
+            ReservationRequestHandler.southwest = new Southwest();
+            ReservationRequestHandler.alaska = new Alaska();
             new ReservationServer();
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,176 +17,112 @@ import java.util.Scanner;
  */
 public class ReservationClientRunner implements KeyListener {
     private Socket socket;
-    private boolean initialized = false;
-    private boolean canAccess = false;
-    private BufferedReader readFromServer = null;
-    private BufferedWriter writeToServer = null;
-    private ObjectOutputStream writeObjToServer = null;
-    private ObjectInputStream readObjFromServer = null;
-    private String selectedAirline = null;
-
     private static String SERVER_STOP_LISTENING_STRING = "DONE";
     private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
+    ObjectOutputStream objos;
+    ObjectInputStream objis;
 
-    private class OBJECT_TRANSMITTER {
-        private int response;
-
-        OBJECT_TRANSMITTER(int response) {
-            this.response = response;
-        }
-
-        public String giveResponse() {
-            switch (response) {
-                case 1:
-                    return CLIENT_STOP_LISTENING_STRING;
-                case 2:
-                    return SERVER_STOP_LISTENING_STRING;
-                default:
-                    return "";
-            }
-        }
-    }
+    JFrame f1 = new JFrame();
 
     public ReservationClientRunner(Socket socket) {
         this.socket = socket;
-        JFrame jf = new JFrame();
-        jf.setSize(1650, 1080);
-        jf.addKeyListener(this);
-        jf.setVisible(true);
+        f1.setSize(600, 400);
+        f1.addKeyListener(this);
+        f1.setVisible(true);
+        f1.setResizable(false);
+
         try {
-            readFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writeToServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            writeToServer.flush();
-            initialized = true;
-            runStages(writeToServer, readFromServer);
-            readFromServer.close();
-            writeToServer.close();
-        /*  writeObjToServer = new ObjectOutputStream(socket.getOutputStream());
-            readObjFromServer = new ObjectInputStream(socket.getInputStream());
-            handleStageEight(writeObjToServer, readObjFromServer);
-            */
+            objos = new ObjectOutputStream(socket.getOutputStream());
+            objis = new ObjectInputStream(socket.getInputStream());
+            objos.flush();
+            welcomePage();
+            confirmFlightBooking();
+            flightSelection(objos, objis);
         } catch (IOException e) {
-            GUIMethods.showErrorMessage("Client Disconnect");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    private void runStages(BufferedWriter writeToServer, BufferedReader readFromServer) throws IOException {
-        handleStageTwo();
-        handleStageThree();
-        handleStageThree();
-        handleStageFour(writeToServer, readFromServer);
+    private void welcomePage() throws InterruptedException {
+        beforeBooking welcomePageGUI = new beforeBooking();
+        f1.add(welcomePageGUI.getPanel());
+        f1.repaint();
+        f1.revalidate();
+        welcomePageGUI.waitUp();
     }
 
-    private void handleStageTwo() {
-
+    private void confirmFlightBooking() throws InterruptedException {
+        beforeBookingPanelChange confirmFlightBookingGUI = new beforeBookingPanelChange();
+        f1.add(confirmFlightBookingGUI.getPanel());
+        f1.repaint();
+        f1.revalidate();
+        confirmFlightBookingGUI.waitUp();
     }
 
-    private void handleStageThree() {
-
-    }
-
-    private void handleStageFour(BufferedWriter bw, BufferedReader br) throws IOException {
+    private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
+            ClassNotFoundException, InterruptedException {
         Scanner sc = new Scanner(System.in);
         String scLine = sc.next();
-        System.out.println("What's wrong with you");
-        //TODO: Get Selected Item in GUI as a string and pass it through.
-        while (!scLine.equals("EXIT")) { //TODO: Until it's time to exit.
-            canAccess = true;
-
-            bw.write(scLine);
-            bw.newLine();
-            bw.flush();
-
-            String line;
-            StringBuilder description = new StringBuilder();
-
-            while (!(line = br.readLine()).equals(CLIENT_STOP_LISTENING_STRING)) {
-                description.append(line).append("\n");
-            }
-
-            selectedAirline = scLine;
+        while (!scLine.equals("EXIT")) {
+            oos.writeObject(scLine);
+            oos.flush();
+            Airline airline = (Airline) ois.readObject();
+            System.out.println(airline.getDescription());
             scLine = sc.next();
-            //TODO: Pass Description through as a Parameter in the GUI
-        }//TODO: End Loop when the button is clicked and continuation occurs
-
-        bw.write(SERVER_STOP_LISTENING_STRING);
-        bw.newLine();
-        bw.flush();
-
-        handleStageFive(writeToServer, readFromServer);
+        }
+        System.out.println("exited");
+        oos.writeObject(SERVER_STOP_LISTENING_STRING);
+        oos.flush();
+        confirmFlightSelection(oos, ois);
     }
 
-    private void handleStageFive(BufferedWriter bw, BufferedReader br) throws IOException {
-        boolean confirmSelection = false; //TODO: Get yes or no right here.
-        if (confirmSelection) {
-            bw.write("CONTINUE");
-            bw.newLine();
-            bw.flush();
-
-            bw.write(SERVER_STOP_LISTENING_STRING);
-            bw.newLine();
-            bw.flush();
-
-            handleStageSix(bw, br);
+    private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
+            ClassNotFoundException, InterruptedException {
+        boolean confirm = true;
+        oos.writeBoolean(confirm);
+        oos.flush();
+        if (confirm) {
+            passengerInformation(oos, ois);
         } else {
-            bw.write("RETURN");
-            bw.newLine();
-            bw.flush();
-
-            bw.write(SERVER_STOP_LISTENING_STRING);
-            bw.newLine();
-            bw.flush();
-
-            handleStageFour(bw, br);
+            flightSelection(oos, ois);
         }
     }
 
-    private void handleStageSix(BufferedWriter bw, BufferedReader br) {
-        handleStageSeven(writeToServer, readFromServer);
-    }
-
-    private void handleStageSeven(BufferedWriter bw, BufferedReader br) {
-        canAccess = false;
-    }
-
-    private void handleStageEight(ObjectOutputStream bw, ObjectInputStream br) {
-    }
-
-    private void handleSpecialWindow(BufferedWriter bw, BufferedReader br) {
-        try {
-            System.out.println("What's wrong with you");
-            writeToServer.write("\\");
-            writeToServer.newLine();
-            writeToServer.flush();
-
-            String receivedLines;
-            ArrayList<String> passengerDetails = new ArrayList<>();
-            while (!(receivedLines = br.readLine()).equals(CLIENT_STOP_LISTENING_STRING)) {
-                passengerDetails.add(receivedLines);
-                System.out.println(receivedLines);
-            }
-            //TODO: Pass the Array list as a Parameter and pop up another GUI
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    private void passengerInformation(ObjectOutputStream oos, ObjectInputStream ois) throws InterruptedException,
+            IOException, ClassNotFoundException {
+        InputInformationWindow getDetails = new InputInformationWindow();
+        f1.add(getDetails.getPanel());
+        f1.repaint();
+        f1.revalidate();
+        oos.writeObject(getDetails.getPassenger());
+        oos.flush();
+        Passenger passenger = (Passenger) ois.readObject();
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        //Don't do anything
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //Don't do anything
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (initialized && canAccess) {
-            if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
-                handleSpecialWindow(writeToServer, readFromServer);
-            }
+        try {
+            objos.writeObject("\\");
+            ArrayList<String> arrayList = (ArrayList) objis.readObject();
+            Airline airline = (Airline) objis.readObject();
+            airline.setPassengerDetails(arrayList);
+            GUIMethods.showBackslashPopup(airline);
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
         }
     }
 }

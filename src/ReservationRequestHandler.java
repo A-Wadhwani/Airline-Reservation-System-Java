@@ -10,121 +10,77 @@ import java.nio.Buffer;
  */
 public class ReservationRequestHandler implements Runnable {
     private Socket clientSocket;
+    private Airline airline;
     private static String SERVER_STOP_LISTENING_STRING = "DONE";
     private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
 
-    private Airline airline;
+    public static Delta delta;
+    public static Southwest southwest;
+    public static Alaska alaska;
 
     public ReservationRequestHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
-    private class OBJECT_TRANSMITTER {
-        private int response;
-
-        OBJECT_TRANSMITTER(int response) {
-            this.response = response;
-        }
-
-        public String giveResponse() {
-            switch (response) {
-                case 1:
-                    return CLIENT_STOP_LISTENING_STRING;
-                case 2:
-                    return SERVER_STOP_LISTENING_STRING;
-                default:
-                    return "";
-            }
-        }
-    }
-
     @Override
     public void run() {
         try {
-            BufferedReader bfrFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            BufferedWriter bfwToClient = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            bfwToClient.flush();
-            runEverything(bfwToClient, bfrFromClient);
-        } catch (IOException e) {
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            oos.flush();
+            flightSelection(oos, ois);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             System.out.println("Connection Terminated.");
         }
     }
 
-    private void runEverything(BufferedWriter bw, BufferedReader br) throws IOException {
-        handleStageFour(bw, br);
-    }
-
-    private void handleStageFour(BufferedWriter bw, BufferedReader br) throws IOException {
-        String receivedInput = br.readLine();
-        System.out.println("What's wrong with you");
+    private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        String receivedInput = (String) ois.readObject();
+        System.out.println(receivedInput);
         while (!receivedInput.equals(SERVER_STOP_LISTENING_STRING)) {
             if (receivedInput.equals("\\")) {
-                //write the new window stuff
-                System.out.println("What's wrong with you1");
-                handleSpecialWindow(bw, br);
+                handleSpecialCase(oos, ois);
             } else {
                 if (receivedInput.equals("Delta")) {
-                    airline = new Delta();
+                    airline = delta;
                 }
                 if (receivedInput.equals("Southwest")) {
-                    airline = new Southwest();
+                    airline = southwest;
                 }
                 if (receivedInput.equals("Alaska")) {
-                    airline = new Alaska();
+                    airline = alaska;
                 }
-                bw.write(airline.getDescription());
-                bw.newLine();
-                bw.flush();
-                bw.write(CLIENT_STOP_LISTENING_STRING);
-                bw.newLine();
-                bw.flush();
+                ServerMethods.updatePassengerDetails(airline);
+                oos.writeObject(airline);
+                oos.flush();
             }
-            receivedInput = br.readLine();
+            receivedInput = (String) ois.readObject();
         }
-        handleStageFive(bw, br);
+        confirmFlightSelection(oos, ois);
     }
 
-    private void handleStageFive(BufferedWriter bw, BufferedReader br) throws IOException {
-        String receivedInput = br.readLine();
-        boolean canProceed = true;
-        while (!receivedInput.equals(SERVER_STOP_LISTENING_STRING)) {
-            if (receivedInput.equals("\\")) {
-                handleSpecialWindow(bw, br);
-            } else {
-                if (receivedInput.contains("CONTINUE")) {
-                    canProceed = true;
-                } else if (receivedInput.contains("RETURN")) {
-                    canProceed = false;
-                }
-            }
-            receivedInput = br.readLine();
+    private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        boolean confirm = ois.readBoolean();
+        if (confirm) {
+            generateBoardingPass(oos, ois);
+        } else {
+            flightSelection(oos, ois);
         }
-        if (canProceed)
-            handleStageSix(bw, br);
-        else
-            handleStageFour(bw, br);
     }
 
-    private void handleStageSix(BufferedWriter bw, BufferedReader br) {
-
+    private void generateBoardingPass(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        Passenger passenger = (Passenger)ois.readObject();
+        ServerMethods.addPassengers(airline, passenger);
+        oos.writeObject(passenger);
+        oos.flush();
     }
 
-    private void handleStageSeven(BufferedWriter bw, BufferedReader br) {
+    private void handleSpecialCase(ObjectOutputStream oos, ObjectInputStream ois) throws IOException {
+        ServerMethods.updatePassengerDetails(airline);
+        oos.writeObject(airline.getPassengerDetails());
+        oos.writeObject(airline);
+        oos.flush();
     }
-
-    private void handleSpecialWindow(BufferedWriter bw, BufferedReader br) throws IOException {
-        for (String input : airline.getPassengerDetails()) {
-            bw.write(input);
-            bw.newLine();
-            bw.flush();
-        }
-        bw.write(CLIENT_STOP_LISTENING_STRING);
-        bw.newLine();
-        bw.flush();
-    }
-
-    private void handleStageEight(ObjectOutputStream bw, ObjectInputStream br) {
-    }
-
 
 }

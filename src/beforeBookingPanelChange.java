@@ -16,6 +16,7 @@ public class beforeBookingPanelChange {
 
         JPanel beforeBookingWithoutPurdueImage = new JPanel();
         JLabel label1 = new JLabel("Do you want to book a flight today?");
+        label1.setFont(label1.getFont().deriveFont(16.0f));
         label1.setHorizontalAlignment(SwingConstants.CENTER);
 
         JButton bookFlight = new JButton("Yes, I want to book a Flight");
