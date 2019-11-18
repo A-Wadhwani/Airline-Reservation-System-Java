@@ -17,9 +17,15 @@ import java.awt.event.ActionListener;
 public class beforeBooking {
 
     String x = null;
+    JPanel mainPanel = new JPanel(new BorderLayout());
+    Boolean isUsed;
+
+    public beforeBooking(){
+        this.isUsed = false;
+    }
+
 
     public JPanel getPanel() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel beforeBookingWithPurdueImage = new JPanel();
         ImageIcon icon = new ImageIcon("PurdueLogo.png");
         JLabel label = new JLabel(icon);
@@ -29,8 +35,8 @@ public class beforeBooking {
         label1.setFont(label1.getFont().deriveFont(16.0f));
 
 
-        Button bookFlight = new Button("Book a Flight");
-        Button exit = new Button("Exit");
+        JButton bookFlight = new JButton("Book a Flight");
+        JButton exit = new JButton("Exit");
 
         beforeBookingWithPurdueImage.add(bookFlight);
         beforeBookingWithPurdueImage.add(exit);
@@ -40,6 +46,7 @@ public class beforeBooking {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainPanel.setVisible(false);
+                setIsUsed(true);
             }
         });
 
@@ -53,10 +60,11 @@ public class beforeBooking {
         mainPanel.add(label1, BorderLayout.NORTH);
         mainPanel.add(label, BorderLayout.CENTER);
         mainPanel.add(beforeBookingWithPurdueImage, BorderLayout.SOUTH);
+        mainPanel.repaint();
         return mainPanel;
     }
 
-    public String response() throws InterruptedException {
+    public synchronized String response() throws InterruptedException {
         if (x == null) {
             Thread.sleep(10);
             return response();
@@ -65,5 +73,20 @@ public class beforeBooking {
         x = null;
         return returnThisBitch;
     }
+
+    public void setMainPanel(Boolean b) {
+        mainPanel.setVisible(b);
+    }
+
+    public void setIsUsed(Boolean b){
+        isUsed = b;
+    }
+
+    public synchronized void waitUp() throws InterruptedException {
+        while (!isUsed){
+            wait(10);
+        }
+    }
+
 
 }

@@ -1,7 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 /**
  * Practice Test Cases - CS 180 Project 5
  *
@@ -14,26 +12,44 @@ public class hello {
     public static void main(String[] args) throws Exception {
 
         JFrame f1 = new JFrame();
-        f1.setSize(500,600);
+        f1.setResizable(false);
+        f1.setSize(600, 400);
 
-        beforeBooking test = new beforeBooking();
+        beforeBooking beforeBooking = new beforeBooking();
+        beforeBooking.setMainPanel(true);
 
         f1.setTitle("Purdue Flight Reservation System");
         f1.setLocationRelativeTo(null);
 
-        f1.add(test.getPanel());
+        f1.add(beforeBooking.getPanel());
         f1.setVisible(true);
+        beforeBooking.setMainPanel(true);
+        f1.repaint();
+        beforeBooking.waitUp();
+        beforeBooking.setMainPanel(false);
 
-        beforeBookingPanelChange test1 = new beforeBookingPanelChange();
-        f1.add(test1.getPanel());
+        beforeBookingPanelChange beforeBookingPanelChange = new beforeBookingPanelChange();
+        f1.add(beforeBookingPanelChange.getPanel());
+        beforeBookingPanelChange.setMainPanel(true);
+        f1.revalidate();
+        beforeBookingPanelChange.waitUp();
+        beforeBookingPanelChange.setMainPanel(false);
 
-        chooseFlightFromDropDown test2 = new chooseFlightFromDropDown();
-        f1.add(test2.getPanel());
 
-        Delta delta = new Delta();
-        JFrame jFrame;
-        jFrame = test2.getPopUp(delta);
-        jFrame.setVisible(true);
+        chooseFlightFromDropDown chooseFlightFromDropDown = new chooseFlightFromDropDown();
+        f1.add(chooseFlightFromDropDown.getPanel());
+        f1.setVisible(true);
+        chooseFlightFromDropDown.setMainPanel(true);
+        f1.revalidate();
+        chooseFlightFromDropDown.waitUp();
+        chooseFlightFromDropDown.setMainPanel(false);
+
+//
+//        Delta delta = new Delta();
+//        ServerMethods.updatePassengerDetails(delta);
+//        JFrame jFrame;
+//        jFrame = test2.getPopUp(delta);
+//        jFrame.setVisible(true);
     }
 
 }
