@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
@@ -15,19 +17,19 @@ import java.util.Scanner;
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019
  */
-public class ReservationClientRunner implements KeyListener {
+public class ReservationClientRunner {
     private Socket socket;
     private static String SERVER_STOP_LISTENING_STRING = "DONE";
     private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
     ObjectOutputStream objos;
     ObjectInputStream objis;
+    boolean canDo = false;
 
     JFrame f1 = new JFrame();
 
     public ReservationClientRunner(Socket socket) {
         this.socket = socket;
         f1.setSize(600, 400);
-        f1.addKeyListener(this);
         f1.setVisible(true);
         f1.setResizable(false);
 
@@ -65,16 +67,32 @@ public class ReservationClientRunner implements KeyListener {
 
     private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
             ClassNotFoundException, InterruptedException {
-        Scanner sc = new Scanner(System.in);
-        String scLine = sc.next();
-        while (!scLine.equals("EXIT")) {
-            oos.writeObject(scLine);
+        chooseFlightFromDropDown flightSelection = new chooseFlightFromDropDown();
+        JPanel panel = flightSelection.getPanel();
+
+        ActionMap actionMap = panel.getActionMap();
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap inputMap = panel.getInputMap(condition);
+        String vkBackSlash = "VK_BACK_SLASH";
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH, 0), vkBackSlash);
+        actionMap.put(vkBackSlash, new KeyAction(vkBackSlash));
+        panel.requestFocus();
+
+        f1.add(panel);
+        flightSelection.setMainPanel(true);
+        f1.repaint();
+        f1.revalidate();
+        while (!flightSelection.isUsed) {
+            String selection = flightSelection.response();
+            oos.writeObject(selection);
+            canDo = true;
             oos.flush();
             Airline airline = (Airline) ois.readObject();
-            System.out.println(airline.getDescription());
-            scLine = sc.next();
+            flightSelection.setDescription(airline.getDescription());
+            f1.repaint();
+            f1.revalidate();
         }
-        System.out.println("exited");
+        f1.revalidate();
         oos.writeObject(SERVER_STOP_LISTENING_STRING);
         oos.flush();
         confirmFlightSelection(oos, ois);
@@ -83,7 +101,7 @@ public class ReservationClientRunner implements KeyListener {
     private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
             ClassNotFoundException, InterruptedException {
         boolean confirm = true;
-        oos.writeBoolean(confirm);
+        oos.writeObject(confirm);
         oos.flush();
         if (confirm) {
             passengerInformation(oos, ois);
@@ -95,34 +113,51 @@ public class ReservationClientRunner implements KeyListener {
     private void passengerInformation(ObjectOutputStream oos, ObjectInputStream ois) throws InterruptedException,
             IOException, ClassNotFoundException {
         InputInformationWindow getDetails = new InputInformationWindow();
-        f1.add(getDetails.getPanel());
+
+        JPanel panel = getDetails.getPanel();
+        ActionMap actionMap = panel.getActionMap();
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap inputMap = panel.getInputMap(condition);
+        String vkBackSlash = "VK_BACK_SLASH";
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH, 0), vkBackSlash);
+        actionMap.put(vkBackSlash, new KeyAction(vkBackSlash));
+        panel.requestFocus();
+
+        f1.add(panel);
         f1.repaint();
         f1.revalidate();
         oos.writeObject(getDetails.getPassenger());
         oos.flush();
         Passenger passenger = (Passenger) ois.readObject();
+        canDo = false;
+        System.out.println(passenger.getBoardingPass().getBoardingPass());
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        try {
+    public void specialWindow() throws IOException, ClassNotFoundException {
+        if (canDo) {
             objos.writeObject("\\");
             ArrayList<String> arrayList = (ArrayList) objis.readObject();
             Airline airline = (Airline) objis.readObject();
             airline.setPassengerDetails(arrayList);
             GUIMethods.showBackslashPopup(airline);
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+        }
+    }
+
+    private class KeyAction extends AbstractAction {
+
+        public KeyAction(String actionCommand) {
+            putValue(ACTION_COMMAND_KEY, actionCommand);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                specialWindow();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
