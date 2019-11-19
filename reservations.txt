@@ -1,5 +1,5 @@
 ALASKA
-7/100
+6/100
 Alaska passenger list
 A. NARAIN, 20
 ---------------------ALASKA
@@ -11,6 +11,8 @@ P. PUNEKAR, 20
 ---------------------ALASKA
 A. WADHWANI, 12
 ---------------------ALASKA
+U. SHARMA, 20
+---------------------ALASKA
 
 
 DELTA
@@ -20,6 +22,10 @@ C. WESTMEYER, 19
 ---------------------DELTA
 K. ABHYANKAR, 19
 ---------------------DELTA
+M. DANIELS, 90
+---------------------DELTA
+A. WADHWA, 19
+---------------------DELTA
 
 
 SOUTHWEST
@@ -28,6 +34,8 @@ Southwest passenger list
 C. WESTMEYER, 20
 ---------------------SOUTHWEST
 G. HARISH, 19
+---------------------SOUTHWEST
+A. WADHWANI, 12
 ---------------------SOUTHWEST
 
 

@@ -14,6 +14,7 @@ public class chooseFlightFromDropDown {
     Boolean isUsed;
     JTextArea content;
     JButton chooseThisFlight;
+    JComboBox<String> airlineDropDown;
 
 
     public chooseFlightFromDropDown() {
@@ -32,10 +33,8 @@ public class chooseFlightFromDropDown {
         mainPanel.setSize(600, 400);
 
         JLabel title = new JLabel("Choose a flight from the drop down menu");
-
-
         String[] airlinesList = new String[]{"Delta", "Southwest", "Alaska"};
-        JComboBox<String> airlineDropDown = new JComboBox<>(airlinesList);
+        airlineDropDown = new JComboBox<>(airlinesList);
         airlineDropDown.setSelectedIndex(-1);
         airlineDropDown.setVisible(true);
         airlineDropDown.addItemListener(new ItemListener() {
@@ -116,7 +115,7 @@ public class chooseFlightFromDropDown {
         lastSelectedFlight = flightName;
         flightName = null;
         //  System.out.println(returnThisBitch);
-        setButtonEnabled();
+        setButtonEnabled(true);
         return returnThisBitch;
     }
 
@@ -146,8 +145,8 @@ public class chooseFlightFromDropDown {
         System.out.println(description);
     }
 
-    public void setButtonEnabled(){
-        this.chooseThisFlight.setEnabled(true);
+    public void setButtonEnabled(boolean b){
+        this.chooseThisFlight.setEnabled(b);
     }
 
 }

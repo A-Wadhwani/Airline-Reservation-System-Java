@@ -21,6 +21,7 @@ public class ReservationClientRunner {
     private Socket socket;
     private static String SERVER_STOP_LISTENING_STRING = "DONE";
     private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
+    Airline airlineChoice = null;
     ObjectOutputStream objos;
     ObjectInputStream objis;
     boolean canDo = false;
@@ -30,6 +31,8 @@ public class ReservationClientRunner {
     public ReservationClientRunner(Socket socket) {
         this.socket = socket;
         f1.setSize(600, 400);
+        f1.setTitle("Purdue Flight Reservation System");
+        f1.setLocationRelativeTo(null);
         f1.setVisible(true);
         f1.setResizable(false);
 
@@ -84,11 +87,24 @@ public class ReservationClientRunner {
         f1.revalidate();
         while (!flightSelection.isUsed) {
             String selection = flightSelection.response();
+            System.out.println(selection);
             oos.writeObject(selection);
             canDo = true;
             oos.flush();
-            Airline airline = (Airline) ois.readObject();
-            flightSelection.setDescription(airline.getDescription());
+            boolean hasSpots = ois.readBoolean();
+            if (hasSpots) {
+                airlineChoice = (Airline) ois.readObject();
+                flightSelection.setDescription(airlineChoice.getDescription());
+                flightSelection.setButtonEnabled(true);
+            } else {
+                flightSelection.airlineDropDown.setSelectedIndex(-1);
+                flightSelection.response();
+                flightSelection.setButtonEnabled(false);
+                JOptionPane.showMessageDialog(null, "The selected flight is full",
+                        "Error in Flight Selection.", JOptionPane.ERROR_MESSAGE);
+                flightSelection.setDescription("Please choose a flight. Please.");
+                continue;
+            }
             f1.repaint();
             f1.revalidate();
         }
@@ -100,12 +116,38 @@ public class ReservationClientRunner {
 
     private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
             ClassNotFoundException, InterruptedException {
-        boolean confirm = true;
+
+        areYouSure confirmFlightChoice = new areYouSure();
+        JPanel panel = confirmFlightChoice.getPanel(airlineChoice);
+
+        ActionMap actionMap = panel.getActionMap();
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap inputMap = panel.getInputMap(condition);
+        String vkBackSlash = "VK_BACK_SLASH";
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SLASH, 0), vkBackSlash);
+        actionMap.put(vkBackSlash, new KeyAction(vkBackSlash));
+        panel.requestFocus();
+
+        f1.add(panel);
+        confirmFlightChoice.setMainPanel(true);
+        f1.repaint();
+        f1.revalidate();
+
+        boolean confirm;
+        int check = confirmFlightChoice.response();
+        if (check == 2) {
+            confirm = true;
+        } else if (check == 1) {
+            confirm = false;
+        } else {
+            throw new IOException("Unknown Error.");
+        }
         oos.writeObject(confirm);
         oos.flush();
         if (confirm) {
             passengerInformation(oos, ois);
         } else {
+            canDo = false;
             flightSelection(oos, ois);
         }
     }

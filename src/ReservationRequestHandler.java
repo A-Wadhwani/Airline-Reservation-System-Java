@@ -30,14 +30,12 @@ public class ReservationRequestHandler implements Runnable {
             oos.flush();
             flightSelection(oos, ois);
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
             System.out.println("Connection Terminated.");
         }
     }
 
     private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
         String receivedInput = (String) ois.readObject();
-        System.out.println(receivedInput);
         while (!receivedInput.equals(SERVER_STOP_LISTENING_STRING)) {
             if (receivedInput.equals("\\")) {
                 handleSpecialCase(oos, ois);
@@ -52,7 +50,13 @@ public class ReservationRequestHandler implements Runnable {
                     airline = alaska;
                 }
                 ServerMethods.updatePassengerDetails(airline);
-                oos.writeObject(airline);
+                if(airline.getNumPassengers()==airline.getMaxPassengers()){
+                    oos.writeBoolean(false);
+                }
+                else{
+                    oos.writeBoolean(true);
+                    oos.writeObject(airline);
+                }
                 oos.flush();
             }
             receivedInput = (String) ois.readObject();
@@ -61,7 +65,14 @@ public class ReservationRequestHandler implements Runnable {
     }
 
     private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        boolean confirm = ois.readBoolean();
+        Object obj = ois.readObject();
+        while (obj instanceof String) {
+            if ("\\".equals((String) obj)) {
+                handleSpecialCase(oos, ois);
+            }
+            obj = ois.readObject();
+        }
+        boolean confirm = (boolean) obj;
         if (confirm) {
             generateBoardingPass(oos, ois);
         } else {
@@ -70,7 +81,14 @@ public class ReservationRequestHandler implements Runnable {
     }
 
     private void generateBoardingPass(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        Passenger passenger = (Passenger)ois.readObject();
+        Object obj = ois.readObject();
+        while (obj instanceof String) {
+            if ("\\".equals((String) obj)) {
+                handleSpecialCase(oos, ois);
+            }
+            obj = ois.readObject();
+        }
+        Passenger passenger = (Passenger) obj;
         ServerMethods.addPassengers(airline, passenger);
         oos.writeObject(passenger);
         oos.flush();
@@ -78,7 +96,7 @@ public class ReservationRequestHandler implements Runnable {
 
     private void handleSpecialCase(ObjectOutputStream oos, ObjectInputStream ois) throws IOException {
         ServerMethods.updatePassengerDetails(airline);
-        oos.writeObject(airline.getPassengerDetails());
+        oos.writeObject(ServerMethods.getPassengerDetails(airline));
         oos.writeObject(airline);
         oos.flush();
     }
