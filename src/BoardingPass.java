@@ -37,11 +37,15 @@ public class BoardingPass implements Serializable {
     }
 
     public synchronized String getBoardingPass() {
-        return String.format("BOARDING PASS FOR FLIGHT %s WITH %s" +
+        return String.format("-------------------------------------------------------------------------------------" +
+                        "----------------------------------------------" +
+                        "\nBOARDING PASS FOR FLIGHT %s WITH %s" +
                         "\nPASSENGER FIRST NAME : %s" +
                         "\nPASSENGER LAST NAME : %s" +
                         "\nPASSENGER AGE : %d" +
-                        "\nYou can now begin boarding at Gate %s",
+                        "\nYou can now begin boarding at Gate %s" +
+                        "\n-----------------------------------------------" +
+                        "---------------------------------------------------------------------------------------",
                 flightNumber, airlineName, firstName.toUpperCase(), lastName.toUpperCase(), age, getGate().toString());
     }
 }

@@ -16,6 +16,7 @@ public class hello {
         f1.setResizable(false);
         f1.setSize(600, 400);
 
+        //BEFORE BOOKING
         beforeBooking beforeBooking = new beforeBooking();
         beforeBooking.setMainPanel(true);
 
@@ -29,6 +30,7 @@ public class hello {
         beforeBooking.waitUp();
         beforeBooking.setMainPanel(false);
 
+        //BEFORE BOOKING PANEL CHANGE
         beforeBookingPanelChange beforeBookingPanelChange = new beforeBookingPanelChange();
         f1.add(beforeBookingPanelChange.getPanel());
         beforeBookingPanelChange.setMainPanel(true);
@@ -36,7 +38,7 @@ public class hello {
         beforeBookingPanelChange.waitUp();
         beforeBookingPanelChange.setMainPanel(false);
 
-
+        //CHOOSE FLIGHT FROM DROPDOWN
         chooseFlightFromDropDown chooseFlightFromDropDown = new chooseFlightFromDropDown();
         f1.add(chooseFlightFromDropDown.getPanel());
         f1.setVisible(true);
@@ -77,6 +79,8 @@ public class hello {
 
         chooseFlightFromDropDown.setMainPanel(false);
 
+
+        //ARE YOU SURE ??????????????
         areYouSure areYouSure = new areYouSure();
         Airline airline;
         switch (s){
@@ -92,6 +96,7 @@ public class hello {
             default:
                 return;
         }
+
         f1.add(areYouSure.getPanel(airline));
         f1.setVisible(true);
         areYouSure.setMainPanel(true);
@@ -101,6 +106,20 @@ public class hello {
         System.out.println(ans);
         areYouSure.setMainPanel(false);
 
+        //FINAL CONFIRMATION
+        finalConfirmationScreen finalConfirmationScreen = new finalConfirmationScreen();
+        Passenger passenger = new Passenger("Avik", "Wadhwa", 12);
+        ServerMethods.addPassengers(airline, passenger);
+        f1.add(finalConfirmationScreen.getPanel(airline, passenger));
+        f1.setVisible(true);
+        finalConfirmationScreen.setMainPanel(true);
+        f1.revalidate();
+        finalConfirmationScreen.waitUp();
+        System.out.println(finalConfirmationScreen.response());
+        finalConfirmationScreen.setMainPanel(false);
+
+
     }
 
 }
+
