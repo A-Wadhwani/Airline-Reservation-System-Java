@@ -97,8 +97,7 @@ public class InputInformationWindow {
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panel.setVisible(false);
-                System.exit(0);
+                GUIMethods.thankYouMessage();
             }
         });
         panel.revalidate();

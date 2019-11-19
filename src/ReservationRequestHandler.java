@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.Socket;
 import java.nio.Buffer;
+import java.util.ArrayList;
 
 /**
  * Reservation Server Handler- CS 180 Project 5
@@ -50,10 +51,9 @@ public class ReservationRequestHandler implements Runnable {
                     airline = alaska;
                 }
                 ServerMethods.updatePassengerDetails(airline);
-                if(airline.getNumPassengers()==airline.getMaxPassengers()){
+                if (airline.getNumPassengers() == airline.getMaxPassengers()) {
                     oos.writeBoolean(false);
-                }
-                else{
+                } else {
                     oos.writeBoolean(true);
                     oos.writeObject(airline);
                 }
@@ -90,8 +90,21 @@ public class ReservationRequestHandler implements Runnable {
         }
         Passenger passenger = (Passenger) obj;
         ServerMethods.addPassengers(airline, passenger);
+        ServerMethods.updatePassengerDetails(airline);
         oos.writeObject(passenger);
         oos.flush();
+        finalConfirmation(oos, ois);
+    }
+
+    private void finalConfirmation(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        while (true) {
+            Airline save = ServerMethods.updateAirline(airline);
+            ArrayList arrayList = save.getPassengerDetails();
+            oos.writeObject(save);
+            oos.writeObject(arrayList);
+            oos.flush();
+            ois.readBoolean();
+        }
     }
 
     private void handleSpecialCase(ObjectOutputStream oos, ObjectInputStream ois) throws IOException {
@@ -99,6 +112,6 @@ public class ReservationRequestHandler implements Runnable {
         oos.writeObject(ServerMethods.getPassengerDetails(airline));
         oos.writeObject(airline);
         oos.flush();
+        oos.flush();
     }
-
 }

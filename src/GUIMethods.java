@@ -24,7 +24,7 @@ public class GUIMethods {
     }
 
     public static String getHostName() {
-        return getHostnameAndPort("What is the HostName you'd like to connect to?", "Hostname?");
+        return getHostnameAndPort("What is the Host name you'd like to connect to?", "Hostname?");
     }
 
     public static String getPort() {
@@ -35,6 +35,7 @@ public class GUIMethods {
         ImageIcon icon = new ImageIcon("JavaCup.png");
         JOptionPane.showMessageDialog(null, "Thank you for using the Purdue University " +
                 "Airline Management System!");
+        System.exit(0);
     }
 
     public static int confirmPassengerInfo(String message) {

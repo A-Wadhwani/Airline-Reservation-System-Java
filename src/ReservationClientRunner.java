@@ -87,8 +87,8 @@ public class ReservationClientRunner {
         f1.revalidate();
         while (!flightSelection.isUsed) {
             String selection = flightSelection.response();
-            System.out.println(selection);
             oos.writeObject(selection);
+            oos.flush();
             canDo = true;
             oos.flush();
             boolean hasSpots = ois.readBoolean();
@@ -172,12 +172,29 @@ public class ReservationClientRunner {
         oos.flush();
         Passenger passenger = (Passenger) ois.readObject();
         canDo = false;
-        System.out.println(passenger.getBoardingPass().getBoardingPass());
+        finalConfirmationWindow(oos, ois, passenger);
     }
 
-    public void specialWindow() throws IOException, ClassNotFoundException {
+    private void finalConfirmationWindow(ObjectOutputStream oos, ObjectInputStream ois, Passenger passenger) throws IOException, ClassNotFoundException, InterruptedException {
+        do {
+            finalConfirmationScreen finalWindow = new finalConfirmationScreen();
+            Airline airline = (Airline) ois.readObject();
+            ArrayList<String> arrayList = (ArrayList<String>) ois.readObject();
+            airline.setPassengerDetails(arrayList);
+            airline.setNumPassengers(arrayList.size());
+            f1.add(finalWindow.getPanel(airline,passenger));
+            finalWindow.waitUp();
+            f1.repaint();
+            f1.revalidate();
+            oos.writeBoolean(true);
+            oos.flush();
+        } while (true);
+    }
+
+    private void specialWindow() throws IOException, ClassNotFoundException {
         if (canDo) {
             objos.writeObject("\\");
+            objos.flush();
             ArrayList<String> arrayList = (ArrayList) objis.readObject();
             Airline airline = (Airline) objis.readObject();
             airline.setPassengerDetails(arrayList);

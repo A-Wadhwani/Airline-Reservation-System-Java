@@ -33,6 +33,11 @@ public class ServerMethods {
         }
     }
 
+    public static synchronized Airline updateAirline(Airline airline) throws IOException {
+        updatePassengerDetails(airline);
+        return airline;
+    }
+
     public static synchronized void addPassengers(Airline airline, Passenger passenger) throws IOException {
         ServerMethods.updatePassengerDetails(airline);
         if (airline.getNumPassengers() >= airline.getMaxPassengers()) {
