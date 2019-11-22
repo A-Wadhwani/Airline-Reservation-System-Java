@@ -13,7 +13,7 @@ public class beforeBookingPanelChange {
     }
 
     public JPanel getPanel() {
-
+        mainPanel.setLayout(null);
         JPanel beforeBookingWithoutPurdueImage = new JPanel();
         JLabel label1 = new JLabel("Do you want to book a flight today?");
         label1.setFont(label1.getFont().deriveFont(16.0f));
@@ -22,8 +22,6 @@ public class beforeBookingPanelChange {
         JButton bookFlight = new JButton("Yes, I want to book a Flight");
         JButton exit = new JButton("Exit");
 
-        beforeBookingWithoutPurdueImage.add(bookFlight);
-        beforeBookingWithoutPurdueImage.add(exit);
 
         bookFlight.addActionListener(new ActionListener() {
             @Override
@@ -40,10 +38,14 @@ public class beforeBookingPanelChange {
             }
         });
 
-        mainPanel.setSize(500, 600);
-        mainPanel.add(label1, BorderLayout.NORTH);
-        beforeBookingWithoutPurdueImage.setVisible(true);
-        mainPanel.add(beforeBookingWithoutPurdueImage, BorderLayout.SOUTH);
+        label1.setBounds(0, 10, 600, 30);
+        exit.setBounds(150, 300, 100, 30);
+        bookFlight.setBounds(260, 300, 200, 30);
+
+        mainPanel.setSize(600, 400);
+        mainPanel.add(label1);
+        mainPanel.add(exit);
+        mainPanel.add(bookFlight);
         mainPanel.repaint();
         return mainPanel;
     }
