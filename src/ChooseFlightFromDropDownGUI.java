@@ -6,18 +6,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class chooseFlightFromDropDown {
-    String flightName;
-    String lastSelectedFlight;
-    String description;
-    JPanel mainPanel;
-    Boolean isUsed;
-    JTextArea content;
-    JButton chooseThisFlight;
-    JComboBox<String> airlineDropDown;
+public class ChooseFlightFromDropDownGUI {
+    private String flightName;
+    private String lastSelectedFlight;
+    private String description;
+    private JPanel mainPanel;
+    public Boolean isUsed;
+    private JTextArea content;
+    private JButton chooseThisFlight;
+    public JComboBox<String> airlineDropDown;
 
 
-    public chooseFlightFromDropDown() {
+    public ChooseFlightFromDropDownGUI() {
         this.flightName = null;
         this.mainPanel = new JPanel();
         this.isUsed = false;
@@ -100,23 +100,20 @@ public class chooseFlightFromDropDown {
 
         mainPanel.repaint();
         return mainPanel;
-
     }
 
-    public synchronized String response() throws InterruptedException {
-
+    public synchronized String getFlightName() throws InterruptedException {
         while (flightName == null && !isUsed) {
             wait(10);
         }
         if (isUsed) {
             return lastSelectedFlight;
         }
-        String returnThisBitch = flightName;
+        String flightNameToReturn = flightName;
         lastSelectedFlight = flightName;
         flightName = null;
-        //  System.out.println(returnThisBitch);
         setButtonEnabled(true);
-        return returnThisBitch;
+        return flightNameToReturn;
     }
 
     public void setDescription(String description) {
@@ -135,17 +132,7 @@ public class chooseFlightFromDropDown {
         isUsed = b;
     }
 
-    public synchronized void waitUp() throws InterruptedException {
-        while (!isUsed) {
-            wait(10);
-        }
-    }
-
-    public void printDescription() {
-        System.out.println(description);
-    }
-
-    public void setButtonEnabled(boolean b){
+    public void setButtonEnabled(boolean b) {
         this.chooseThisFlight.setEnabled(b);
     }
 

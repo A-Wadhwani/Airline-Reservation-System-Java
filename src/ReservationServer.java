@@ -26,7 +26,7 @@ public class ReservationServer {
                 clientSocket = serverSocket.accept();
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("bye");
+                System.out.println("Failed to Connect.");
                 break;
             }
             ReservationRequestHandler requestHandler = new ReservationRequestHandler(clientSocket);

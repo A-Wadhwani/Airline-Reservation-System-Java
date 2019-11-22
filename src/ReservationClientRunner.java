@@ -1,12 +1,9 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Reservation Client Handler - CS 180 Project 5
@@ -70,7 +67,7 @@ public class ReservationClientRunner {
 
     private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
             ClassNotFoundException, InterruptedException {
-        chooseFlightFromDropDown flightSelection = new chooseFlightFromDropDown();
+        ChooseFlightFromDropDownGUI flightSelection = new ChooseFlightFromDropDownGUI();
         JPanel panel = flightSelection.getPanel();
 
         ActionMap actionMap = panel.getActionMap();
@@ -86,7 +83,7 @@ public class ReservationClientRunner {
         f1.repaint();
         f1.revalidate();
         while (!flightSelection.isUsed) {
-            String selection = flightSelection.response();
+            String selection = flightSelection.getFlightName();
             oos.writeObject(selection);
             oos.flush();
             canDo = true;
@@ -98,7 +95,7 @@ public class ReservationClientRunner {
                 flightSelection.setButtonEnabled(true);
             } else {
                 flightSelection.airlineDropDown.setSelectedIndex(-1);
-                flightSelection.response();
+                flightSelection.getFlightName();
                 flightSelection.setButtonEnabled(false);
                 JOptionPane.showMessageDialog(null, "The selected flight is full",
                         "Error in Flight Selection.", JOptionPane.ERROR_MESSAGE);
@@ -117,7 +114,7 @@ public class ReservationClientRunner {
     private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
             ClassNotFoundException, InterruptedException {
 
-        areYouSure confirmFlightChoice = new areYouSure();
+        ConfirmFlightSelection confirmFlightChoice = new ConfirmFlightSelection();
         JPanel panel = confirmFlightChoice.getPanel(airlineChoice);
 
         ActionMap actionMap = panel.getActionMap();
@@ -134,7 +131,7 @@ public class ReservationClientRunner {
         f1.revalidate();
 
         boolean confirm;
-        int check = confirmFlightChoice.response();
+        int check = confirmFlightChoice.getResponseFromButtonClick();
         if (check == 2) {
             confirm = true;
         } else if (check == 1) {
@@ -177,7 +174,7 @@ public class ReservationClientRunner {
 
     private void finalConfirmationWindow(ObjectOutputStream oos, ObjectInputStream ois, Passenger passenger) throws IOException, ClassNotFoundException, InterruptedException {
         do {
-            finalConfirmationScreen finalWindow = new finalConfirmationScreen();
+            FinalConfirmationScreenGUI finalWindow = new FinalConfirmationScreenGUI();
             Airline airline = (Airline) ois.readObject();
             ArrayList<String> arrayList = (ArrayList<String>) ois.readObject();
             airline.setPassengerDetails(arrayList);

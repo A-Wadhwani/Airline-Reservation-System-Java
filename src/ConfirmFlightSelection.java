@@ -2,23 +2,22 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class areYouSure {
-    JPanel mainPanel;
-    Boolean isUsed;
-    int ans;
+public class ConfirmFlightSelection {
+    private JPanel mainPanel;
+    private Boolean isUsed;
+    private int answer;
 
-    public areYouSure() {
+    public ConfirmFlightSelection() {
         mainPanel = new JPanel();
         isUsed = false;
-        ans = 0;
+        answer = 0;
     }
 
     public JPanel getPanel(Airline airline) {
         mainPanel.setLayout(null);
         mainPanel.setSize(600, 400);
-        JLabel title = new JLabel("Are you sure you want to book a flight on " + airline.getAirplaneFullName() +
-                "?");
-
+        JLabel title = new JLabel("Are you sure you want to book a flight on " +
+                airline.getAirplaneFullName() + "?");
 
         JButton exit = new JButton("Exit");
         JButton diffFlight = new JButton("No, I want a different flight");
@@ -41,7 +40,7 @@ public class areYouSure {
         diffFlight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ans = 1;
+                answer = 1;
                 setIsUsed(true);
                 mainPanel.setVisible(false);
             }
@@ -50,14 +49,12 @@ public class areYouSure {
         yesFlight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ans = 2;
+                answer = 2;
                 setIsUsed(true);
                 mainPanel.setVisible(false);
 
             }
         });
-
-
 
         title.setBounds(0, 10, 600, 30);
         exit.setBounds(30, 300, 100, 30);
@@ -74,14 +71,13 @@ public class areYouSure {
         return mainPanel;
     }
 
-    public synchronized int response() throws InterruptedException {
-        if (ans == 0) {
-            Thread.sleep(10);
-            return response();
+    public synchronized int getResponseFromButtonClick() throws InterruptedException {
+        while (answer == 0) {
+            wait(10);
         }
-        int thisBitch = ans;
-        ans = 0;
-        return thisBitch;
+        int responseFromClient = answer;
+        answer = 0;
+        return responseFromClient;
     }
 
     public void setIsUsed(Boolean b) {
@@ -92,13 +88,4 @@ public class areYouSure {
         mainPanel.setVisible(b);
     }
 
-    public synchronized void waitUp() throws InterruptedException {
-        while (!isUsed) {
-            wait(10);
-        }
-    }
-
-    public int getAns() {
-        return ans;
-    }
 }

@@ -28,14 +28,15 @@ public class GUIMethods {
     }
 
     public static String getPort() {
-        return getHostnameAndPort("What is the port you'd like to connect to?", "Port?");
+        return getHostnameAndPort("What is the port you'd like to connect to?",
+                "Port?");
     }
 
     public static void thankYouMessage() {
         ImageIcon icon = new ImageIcon("JavaCup.png");
         JOptionPane.showMessageDialog(null, "Thank you for using the Purdue University " +
                 "Airline Management System!");
-        System.exit(0);
+        Runtime.getRuntime().exit(0);
     }
 
     public static int confirmPassengerInfo(String message) {

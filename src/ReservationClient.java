@@ -13,7 +13,6 @@ public class ReservationClient {
         String hostname = GUIMethods.getHostName();
         if (hostname == null) {
             GUIMethods.thankYouMessage();
-            System.exit(0);
         }
         return hostname;
     }
@@ -22,7 +21,6 @@ public class ReservationClient {
         String portString = GUIMethods.getPort();
         if (portString == null) {
             GUIMethods.thankYouMessage();
-            System.exit(0);
         }
         try {
             return Integer.parseInt(portString);

@@ -56,7 +56,6 @@ public class beforeBooking {
                 GUIMethods.thankYouMessage();
             }
         });
-
         mainPanel.add(label1, BorderLayout.NORTH);
         mainPanel.add(label, BorderLayout.CENTER);
         mainPanel.add(beforeBookingWithPurdueImage, BorderLayout.SOUTH);

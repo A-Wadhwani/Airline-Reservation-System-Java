@@ -3,18 +3,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class finalConfirmationScreen {
-    JPanel mainPanel;
-    Boolean isUsed;
-    int ans;
+public class FinalConfirmationScreenGUI {
+    private JPanel mainPanel;
+    private Boolean isUsed;
 
-    public finalConfirmationScreen() {
+    public FinalConfirmationScreenGUI() {
         this.mainPanel = new JPanel();
         isUsed = false;
-        ans = 0;
     }
 
-    public JPanel getPanel(Airline airline, Passenger passenger){
+    public JPanel getPanel(Airline airline, Passenger passenger) {
 
         mainPanel.setLayout(null);
         mainPanel.setSize(600, 400);
@@ -22,7 +20,7 @@ public class finalConfirmationScreen {
         JLabel title1 = new JLabel("<html>Flight data displaying for " + airline.getAirplaneFullName() +
                 "</html>");
         JLabel title2 = new JLabel("<html> Enjoy your flight! </html>");
-        JLabel title3 = new JLabel("<html> Flight is now boarding in " + airline.getGate() +  "</html>");
+        JLabel title3 = new JLabel("<html> Flight is now boarding in " + airline.getGate() + "</html>");
 
         title1.setHorizontalAlignment(SwingConstants.CENTER);
         title2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -46,7 +44,6 @@ public class finalConfirmationScreen {
             public void actionPerformed(ActionEvent e) {
                 setIsUsed(true);
                 mainPanel.setVisible(false);
-                ans = 1;
             }
         });
 
@@ -60,7 +57,6 @@ public class finalConfirmationScreen {
                 airline.getNumPassengers() + " : " + airline.getMaxPassengers();
         JLabel firstLineLabel = new JLabel(firstLine);
         firstLineLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
 
 
         StringBuilder text = new StringBuilder();
@@ -122,28 +118,10 @@ public class finalConfirmationScreen {
         isUsed = b;
     }
 
-    public void setMainPanel(Boolean b) {
-        mainPanel.setVisible(b);
-    }
-
     public synchronized void waitUp() throws InterruptedException {
         while (!isUsed) {
             wait(10);
         }
         setIsUsed(false);
-    }
-
-    public int getAns() {
-        return ans;
-    }
-
-    public synchronized int response() throws InterruptedException {
-        if (ans == 0) {
-            Thread.sleep(10);
-            return response();
-        }
-        int thisBitch = ans;
-        ans = 0;
-        return thisBitch;
     }
 }
