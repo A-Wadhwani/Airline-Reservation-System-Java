@@ -26,7 +26,8 @@ public class beforeBooking {
 
 
     public JPanel getPanel() {
-        JPanel beforeBookingWithPurdueImage = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setSize(600, 400);
         ImageIcon icon = new ImageIcon("PurdueLogo.png");
         JLabel label = new JLabel(icon);
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -37,10 +38,6 @@ public class beforeBooking {
 
         JButton bookFlight = new JButton("Book a Flight");
         JButton exit = new JButton("Exit");
-
-        beforeBookingWithPurdueImage.add(bookFlight);
-        beforeBookingWithPurdueImage.add(exit);
-        beforeBookingWithPurdueImage.setVisible(true);
 
         bookFlight.addActionListener(new ActionListener() {
             @Override
@@ -56,9 +53,18 @@ public class beforeBooking {
                 GUIMethods.thankYouMessage();
             }
         });
-        mainPanel.add(label1, BorderLayout.NORTH);
-        mainPanel.add(label, BorderLayout.CENTER);
-        mainPanel.add(beforeBookingWithPurdueImage, BorderLayout.SOUTH);
+
+        label1.setBounds(0, 10, 600, 30);
+        label.setBounds(30, 30, 540, 270);
+        exit.setBounds(160, 300, 100, 30);
+        bookFlight.setBounds(270, 300, 180, 30);
+
+
+
+        mainPanel.add(label1);
+        mainPanel.add(label);
+        mainPanel.add(exit);
+        mainPanel.add(bookFlight);
         mainPanel.repaint();
         return mainPanel;
     }
