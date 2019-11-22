@@ -37,7 +37,7 @@ public class finalConfirmationScreen {
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                GUIMethods.thankYouMessage();
             }
         });
 
