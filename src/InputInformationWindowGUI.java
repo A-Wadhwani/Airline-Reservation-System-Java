@@ -10,7 +10,7 @@ import java.util.Stack;
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019
  */
-public class InputInformationWindow {
+public class InputInformationWindowGUI {
     private Passenger passenger = null;
 
     public JPanel getPanel() {

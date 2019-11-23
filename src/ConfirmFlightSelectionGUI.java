@@ -2,14 +2,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ConfirmFlightSelection {
+public class ConfirmFlightSelectionGUI {
     private JPanel mainPanel;
-    private Boolean isUsed;
     private int answer;
 
-    public ConfirmFlightSelection() {
+    public ConfirmFlightSelectionGUI() {
         mainPanel = new JPanel();
-        isUsed = false;
         answer = 0;
     }
 
@@ -81,7 +79,6 @@ public class ConfirmFlightSelection {
     }
 
     public void setIsUsed(Boolean b) {
-        isUsed = b;
     }
 
     public void setMainPanel(Boolean b) {

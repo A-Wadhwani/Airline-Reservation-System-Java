@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 /**
@@ -12,8 +11,7 @@ import java.util.ArrayList;
 public class ReservationRequestHandler implements Runnable {
     private Socket clientSocket;
     private Airline airline;
-    private static String SERVER_STOP_LISTENING_STRING = "DONE";
-    private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
+    private static String serverStopListeningString = "DONE";
 
     public static Delta delta;
     public static Southwest southwest;
@@ -37,7 +35,7 @@ public class ReservationRequestHandler implements Runnable {
 
     private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
         String receivedInput = (String) ois.readObject();
-        while (!receivedInput.equals(SERVER_STOP_LISTENING_STRING)) {
+        while (!receivedInput.equals(serverStopListeningString)) {
             if (receivedInput.equals("\\")) {
                 handleSpecialCase(oos, ois);
             } else {

@@ -14,13 +14,12 @@ import java.awt.event.ActionListener;
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version Date Month 2019
  */
-public class beforeBooking {
+public class WelcomePageGUI {
 
-    String x = null;
     JPanel mainPanel = new JPanel(new BorderLayout());
     Boolean isUsed;
 
-    public beforeBooking() {
+    public WelcomePageGUI() {
         this.isUsed = false;
     }
 
@@ -60,23 +59,12 @@ public class beforeBooking {
         bookFlight.setBounds(270, 300, 180, 30);
 
 
-
         mainPanel.add(label1);
         mainPanel.add(label);
         mainPanel.add(exit);
         mainPanel.add(bookFlight);
         mainPanel.repaint();
         return mainPanel;
-    }
-
-    public synchronized String response() throws InterruptedException {
-        if (x == null) {
-            Thread.sleep(10);
-            return response();
-        }
-        String returnThisBitch = x;
-        x = null;
-        return returnThisBitch;
     }
 
     public void setMainPanel(Boolean b) {

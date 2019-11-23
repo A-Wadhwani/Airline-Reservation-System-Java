@@ -16,8 +16,7 @@ import java.util.ArrayList;
  */
 public class ReservationClientRunner {
     private Socket socket;
-    private static String SERVER_STOP_LISTENING_STRING = "DONE";
-    private static String CLIENT_STOP_LISTENING_STRING = "FINISH";
+    private static String serverStopListeningString = "DONE";
     Airline airlineChoice = null;
     ObjectOutputStream objos;
     ObjectInputStream objis;
@@ -50,7 +49,7 @@ public class ReservationClientRunner {
     }
 
     private void welcomePage() throws InterruptedException {
-        beforeBooking welcomePageGUI = new beforeBooking();
+        WelcomePageGUI welcomePageGUI = new WelcomePageGUI();
         f1.add(welcomePageGUI.getPanel());
         f1.repaint();
         f1.revalidate();
@@ -58,7 +57,7 @@ public class ReservationClientRunner {
     }
 
     private void confirmFlightBooking() throws InterruptedException {
-        beforeBookingPanelChange confirmFlightBookingGUI = new beforeBookingPanelChange();
+        AskToBookFlightGUI confirmFlightBookingGUI = new AskToBookFlightGUI();
         f1.add(confirmFlightBookingGUI.getPanel());
         f1.repaint();
         f1.revalidate();
@@ -106,7 +105,7 @@ public class ReservationClientRunner {
             f1.revalidate();
         }
         f1.revalidate();
-        oos.writeObject(SERVER_STOP_LISTENING_STRING);
+        oos.writeObject(serverStopListeningString);
         oos.flush();
         confirmFlightSelection(oos, ois);
     }
@@ -114,7 +113,7 @@ public class ReservationClientRunner {
     private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
             ClassNotFoundException, InterruptedException {
 
-        ConfirmFlightSelection confirmFlightChoice = new ConfirmFlightSelection();
+        ConfirmFlightSelectionGUI confirmFlightChoice = new ConfirmFlightSelectionGUI();
         JPanel panel = confirmFlightChoice.getPanel(airlineChoice);
 
         ActionMap actionMap = panel.getActionMap();
@@ -151,7 +150,7 @@ public class ReservationClientRunner {
 
     private void passengerInformation(ObjectOutputStream oos, ObjectInputStream ois) throws InterruptedException,
             IOException, ClassNotFoundException {
-        InputInformationWindow getDetails = new InputInformationWindow();
+        InputInformationWindowGUI getDetails = new InputInformationWindowGUI();
 
         JPanel panel = getDetails.getPanel();
         ActionMap actionMap = panel.getActionMap();
@@ -172,14 +171,15 @@ public class ReservationClientRunner {
         finalConfirmationWindow(oos, ois, passenger);
     }
 
-    private void finalConfirmationWindow(ObjectOutputStream oos, ObjectInputStream ois, Passenger passenger) throws IOException, ClassNotFoundException, InterruptedException {
+    private void finalConfirmationWindow(ObjectOutputStream oos, ObjectInputStream ois, Passenger passenger)
+            throws IOException, ClassNotFoundException, InterruptedException {
         do {
             FinalConfirmationScreenGUI finalWindow = new FinalConfirmationScreenGUI();
             Airline airline = (Airline) ois.readObject();
             ArrayList<String> arrayList = (ArrayList<String>) ois.readObject();
             airline.setPassengerDetails(arrayList);
             airline.setNumPassengers(arrayList.size());
-            f1.add(finalWindow.getPanel(airline,passenger));
+            f1.add(finalWindow.getPanel(airline, passenger));
             finalWindow.waitUp();
             f1.repaint();
             f1.revalidate();

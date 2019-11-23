@@ -3,12 +3,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class beforeBookingPanelChange {
-    String x = null;
+public class AskToBookFlightGUI {
     JPanel mainPanel = new JPanel(new BorderLayout());
     Boolean isUsed;
 
-    public beforeBookingPanelChange() {
+    public AskToBookFlightGUI() {
         this.isUsed = false;
     }
 
@@ -34,7 +33,7 @@ public class beforeBookingPanelChange {
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUIMethods.thankYouMessage();;
+                GUIMethods.thankYouMessage();
             }
         });
 
@@ -48,20 +47,6 @@ public class beforeBookingPanelChange {
         mainPanel.add(bookFlight);
         mainPanel.repaint();
         return mainPanel;
-    }
-
-    public synchronized String response() throws InterruptedException {
-        while (x == null) {
-            wait(10);
-            return response();
-        }
-        String returnThisBitch = x;
-        x = null;
-        return returnThisBitch;
-    }
-
-    public void setMainPanel(Boolean b) {
-        mainPanel.setVisible(b);
     }
 
     public void setIsUsed(Boolean b) {

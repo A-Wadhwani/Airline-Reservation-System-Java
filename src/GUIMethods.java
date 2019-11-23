@@ -42,11 +42,11 @@ public class GUIMethods {
     public static int confirmPassengerInfo(String message) {
         ImageIcon icon = new ImageIcon("JavaCup.png");
         int x = JOptionPane.showConfirmDialog(null, message, "Confirm Info",
-                JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,icon);
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
         return x;
     }
 
-    public static void showBackslashPopup(Airline airline){
+    public static void showBackslashPopup(Airline airline) {
         JFrame newPopUp = getPopUp(airline);
         newPopUp.setSize(300, 300);
         newPopUp.revalidate();
@@ -54,7 +54,7 @@ public class GUIMethods {
         newPopUp.setVisible(true);
     }
 
-    private static JFrame getPopUp(Airline airline){
+    private static JFrame getPopUp(Airline airline) {
         JPanel popUpMain = new JPanel(new BorderLayout());
         JFrame popUp = new JFrame("");
 

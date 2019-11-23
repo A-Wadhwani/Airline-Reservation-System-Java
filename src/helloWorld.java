@@ -5,7 +5,7 @@ public class helloWorld {
         JFrame jf = new JFrame();
         jf.setSize(600, 400);
         jf.setLocationRelativeTo(null);
-        beforeBookingPanelChange beforeBookingPanelChange = new beforeBookingPanelChange();
+        AskToBookFlightGUI beforeBookingPanelChange = new AskToBookFlightGUI();
         jf.add(beforeBookingPanelChange.getPanel());
         jf.setVisible(true);
     }
