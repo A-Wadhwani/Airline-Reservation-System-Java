@@ -48,22 +48,29 @@ public class GUIMethods {
 
     public static void showBackslashPopup(Airline airline) {
         JFrame newPopUp = getPopUp(airline);
-        newPopUp.setSize(300, 300);
+        newPopUp.setSize(300, 220);
         newPopUp.revalidate();
         newPopUp.repaint();
         newPopUp.setVisible(true);
     }
 
     private static JFrame getPopUp(Airline airline) {
-        JPanel popUpMain = new JPanel(new BorderLayout());
+        JPanel popUpMain = new JPanel();
+        popUpMain.setLayout(null);
         JFrame popUp = new JFrame("");
 
         popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JLabel heading = new JLabel(airline.getAirplaneFullName() + ". " + airline.getNumPassengers() +
-                "/" + airline.getMaxPassengers());
+                " : " + airline.getMaxPassengers());
 
-        popUpMain.add(heading, BorderLayout.NORTH);
+
+
+        Font f = heading.getFont();
+
+// bold
+        heading.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+        heading.setFont(heading.getFont().deriveFont(16.0f));
 
         StringBuilder text = new StringBuilder();
         for (String passengerDetail : airline.getPassengerDetails()) {
@@ -75,23 +82,31 @@ public class GUIMethods {
         passengerList.setBackground(UIManager.getColor("Label.background"));
 
         JScrollPane scroll = new JScrollPane(passengerList);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        popUpMain.add(scroll, BorderLayout.CENTER);
         JButton exit = new JButton("Exit");
-        exit.setBounds(40, 0, 50, 50);
-        exit.setVisible(true);
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 popUp.dispose();
             }
+
         });
+        exit.setFont(heading.getFont().deriveFont(12.0f));
 
-        JPanel button = new JPanel(new BorderLayout());
-        button.add(exit, BorderLayout.WEST);
+        heading.setBounds(2, 10, 300, 20);
+        passengerList.setBounds(200, 100, 150, 100);
+        scroll.setBounds(2, 40, 287, 100);
+        exit.setBounds(100, 150, 70, 25);
 
-        popUpMain.add(button, BorderLayout.SOUTH);
+
+        scroll.setVisible(true);
+
+        popUpMain.add(heading);
+        popUpMain.add(exit);
         popUp.add(popUpMain);
+        popUpMain.add(scroll);
+        popUp.setResizable(false);
         return popUp;
     }
 }
