@@ -21,7 +21,7 @@ public class ChooseFlightFromDropDownGUI {
         this.flightName = null;
         this.mainPanel = new JPanel();
         this.isUsed = false;
-        this.description = "Please choose a flight. Please.";
+        this.description = "Please choose a flight.";
         this.content = new JTextArea(description);
         content.setEditable(false);
         content.setVisible(true);
