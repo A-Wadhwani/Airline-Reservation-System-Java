@@ -10,11 +10,17 @@ N. CLAYMAN, 19
 
 
 DELTA
-2/200
+5/200
 Delta passenger list
 C. WESTMEYER, 19
 ---------------------DELTA
 K. ABHYANKAR, 19
+---------------------DELTA
+S. SHOSHI, 69
+---------------------DELTA
+K. D, 18
+---------------------DELTA
+K. A, 19
 ---------------------DELTA
 
 
