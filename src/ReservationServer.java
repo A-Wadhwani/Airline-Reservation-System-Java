@@ -41,6 +41,9 @@ public class ReservationServer {
             ReservationRequestHandler.delta = new Delta();
             ReservationRequestHandler.southwest = new Southwest();
             ReservationRequestHandler.alaska = new Alaska();
+            ReservationRequestHandler.deltaCount = 0;
+            ReservationRequestHandler.southwestCount = 0;
+            ReservationRequestHandler.alaskaCount = 0;
             new ReservationServer();
         } catch (Exception e) {
             e.printStackTrace();
