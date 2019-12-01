@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Stack;
 
 /**
- * Practice Test Cases - CS 180 Project 5
+ * Input Information Window GUI - CS 180 Project 5
  *
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019

@@ -6,6 +6,8 @@ import java.util.Scanner;
 /**
  * Server Methods - CS 180 Project 5
  *
+ * Methods called by server to access file details.
+ *
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019
  */

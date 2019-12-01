@@ -3,6 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Ask to Book Flight GUI - CS 180 Project 5
+ *
+ * @author Aryan Wadhwani, Gowri Harish, CS 18000
+ * @version 15th November 2019
+ */
+
 public class AskToBookFlightGUI {
     JPanel mainPanel = new JPanel(new BorderLayout());
     Boolean isUsed;

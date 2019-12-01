@@ -7,22 +7,14 @@ K. ABHYANKAR, 19
 ---------------------ALASKA
 N. CLAYMAN, 19
 ---------------------ALASKA
-A. WADHWANI, 12345
----------------------ALASKA
 
 
 DELTA
-5/6
+5/200
 Delta passenger list
 C. WESTMEYER, 19
 ---------------------DELTA
 K. ABHYANKAR, 19
----------------------DELTA
-S. SHOSHI, 69
----------------------DELTA
-K. D, 18
----------------------DELTA
-K. A, 19
 ---------------------DELTA
 
 
@@ -34,8 +26,6 @@ C. WESTMEYER, 20
 S. SINGH, 18
 ---------------------SOUTHWEST
 P. PUNNEKAR, 25
----------------------SOUTHWEST
-A. NAIR, 108
 ---------------------SOUTHWEST
 A. WADHWANI, 19
 ---------------------SOUTHWEST

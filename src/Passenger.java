@@ -1,6 +1,4 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.Serializable;
 
 /**
  * Passenger - CS 180 Project 5

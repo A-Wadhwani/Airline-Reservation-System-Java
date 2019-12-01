@@ -7,6 +7,7 @@ import java.util.Random;
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019
  */
+
 public class Gate implements Serializable {
     private char gateLetter;
     private int gateNumber;
