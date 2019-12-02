@@ -1,11 +1,10 @@
 import java.io.*;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Server Methods - CS 180 Project 5
- *
+ * <p>
  * Methods called by server to access file details.
  *
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
@@ -17,11 +16,16 @@ public class ServerMethods {
         String airplaneName = airline.getAirplaneName().toUpperCase();
         BufferedReader bfr = new BufferedReader(new FileReader("reservations.txt"));
         airline.setPassengerDetails(new ArrayList<>());
-        String line;
-        while (!(line = bfr.readLine()).equals("EOF")) {
+        String line = bfr.readLine();
+        if (line==null||line.isBlank()) {
+            initializeFile(new File("reservations.txt"));
+            line = bfr.readLine();
+        }
+        while (!line.equals("EOF")) {
             if (line.equals(airplaneName)) {
                 break;
             }
+            line = bfr.readLine();
         }
         line = bfr.readLine();
         int numPassengers = Integer.parseInt(line.substring(0, line.indexOf("/")));
@@ -67,6 +71,11 @@ public class ServerMethods {
         ArrayList<String> temp = new ArrayList<>();
         String toAdd = passenger.getFullName() + ", " + passenger.getAge();
         File file = new File("reservations.txt");
+        Scanner checkEmpty = new Scanner(file);
+        if (checkEmpty.nextLine().isBlank()) {
+            initializeFile(file);
+        }
+        checkEmpty.close();
         Scanner in = new Scanner(file);
         while (in.hasNextLine()) {
             temp.add(in.nextLine());
@@ -99,5 +108,28 @@ public class ServerMethods {
         bw.close();
         pw.close();
         fos.close();
+    }
+
+    private static void initializeFile(File file) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileOutputStream(file));
+        BufferedWriter bw = new BufferedWriter(pw);
+        bw.write("ALASKA\n" +
+                "0/100\n" +
+                "Alaska passenger list\n" +
+                "\n" +
+                "\n" +
+                "DELTA\n" +
+                "0/200\n" +
+                "Delta passenger list\n" +
+                "\n" +
+                "\n" +
+                "SOUTHWEST\n" +
+                "0/100\n" +
+                "Southwest passenger list\n" +
+                "\n" +
+                "\n" +
+                "EOF\n");
+        bw.flush();
+        bw.close();
     }
 }

@@ -1,34 +1,16 @@
 ALASKA
-4/100
+0/100
 Alaska passenger list
-A. NARAIN, 20
----------------------ALASKA
-K. ABHYANKAR, 19
----------------------ALASKA
-N. CLAYMAN, 19
----------------------ALASKA
 
 
 DELTA
-5/200
+0/200
 Delta passenger list
-C. WESTMEYER, 19
----------------------DELTA
-K. ABHYANKAR, 19
----------------------DELTA
 
 
 SOUTHWEST
-5/100
+0/100
 Southwest passenger list
-C. WESTMEYER, 20
----------------------SOUTHWEST
-S. SINGH, 18
----------------------SOUTHWEST
-P. PUNNEKAR, 25
----------------------SOUTHWEST
-A. WADHWANI, 19
----------------------SOUTHWEST
 
 
 EOF
