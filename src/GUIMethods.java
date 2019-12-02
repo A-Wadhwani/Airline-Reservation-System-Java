@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -11,10 +10,11 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
  * @version 15th November 2019
  */
+
 public class GUIMethods {
     private static String getHostnameAndPort(String message, String title) {
         ImageIcon icon = new ImageIcon("JavaCup.png");
-        return (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION,
+        return (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.PLAIN_MESSAGE,
                 icon, null, "");
     }
 
@@ -24,7 +24,7 @@ public class GUIMethods {
     }
 
     public static String getHostName() {
-        return getHostnameAndPort("What is the Host name you'd like to connect to?", "Hostname?");
+        return getHostnameAndPort("What is the host name you'd like to connect to?", "Hostname?");
     }
 
     public static String getPort() {
@@ -68,7 +68,6 @@ public class GUIMethods {
 
         Font f = heading.getFont();
 
-// bold
         heading.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
         heading.setFont(heading.getFont().deriveFont(16.0f));
 

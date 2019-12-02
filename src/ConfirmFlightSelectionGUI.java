@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Confirm Flight Selection GUI - CS 180 Project 5
+ *
+ * @author Aryan Wadhwani, Gowri Harish, CS 18000
+ * @version 15th November 2019
+ */
 public class ConfirmFlightSelectionGUI {
     private JPanel mainPanel;
     private int answer;

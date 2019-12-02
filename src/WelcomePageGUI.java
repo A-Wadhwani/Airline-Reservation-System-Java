@@ -4,15 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * _____ - CS 180 Homework _
- * <p>
- * <p>
- * Sources:
- *
- * </p>
+ * Welcome Page GUI - CS 180 Project 5
  *
  * @author Aryan Wadhwani, Gowri Harish, CS 18000
- * @version Date Month 2019
+ * @version 15th November 2019
  */
 public class WelcomePageGUI {
 
