@@ -4,6 +4,6 @@
 
 #### Setting up project in IntelliJ
 To set up the project in a new IntelliJ project, 
-add ```reservations.txt``` and ```PurdueLogo.png``` 
-to the root of the project and all the remaining files 
-to the ```src``` folder  
+add ```reservations.txt```, ```JavaCup.png``` and 
+```PurdueLogo.png``` to the root of the project and
+all the remaining files to the ```src``` folder.  
