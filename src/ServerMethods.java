@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.spi.AbstractResourceBundleProvider;
 
 /**
  * Server Methods - CS 180 Project 5
@@ -17,7 +18,7 @@ public class ServerMethods {
         BufferedReader bfr = new BufferedReader(new FileReader("reservations.txt"));
         airline.setPassengerDetails(new ArrayList<>());
         String line = bfr.readLine();
-        if (line==null||line.isBlank()) {
+        if (line == null || line.isBlank()) {
             initializeFile(new File("reservations.txt"));
             line = bfr.readLine();
         }
@@ -33,7 +34,11 @@ public class ServerMethods {
         airline.setNumPassengers(numPassengers);
         airline.setMaxPassengers(maxPassengers);
         bfr.readLine();
-        while (!(line = bfr.readLine()).isBlank()) {
+        while (true) {
+            line = bfr.readLine();
+            if (line.isBlank()) {
+                break;
+            }
             airline.addPassengerDetails(line);
             bfr.readLine();
         }

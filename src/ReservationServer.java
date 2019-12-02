@@ -54,6 +54,13 @@ public class ReservationServer {
         runServer();
     }
 
+    /**
+     * ClientHandler - CS 180 Project 5
+     *
+     * @author Aryan Wadhwani, Gowri Harish, CS 18000
+     * @version 15th November 2019
+     */
+
     private static class ClientHandler implements Runnable {
         private Socket clientSocket;
         private Airline airline;
@@ -97,7 +104,8 @@ public class ReservationServer {
             }
         }
 
-        private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        private void flightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
+                ClassNotFoundException {
             String receivedInput = (String) ois.readObject();
             while (!receivedInput.equals(serverStopListeningString)) {
                 if (receivedInput.equals("\\")) {
@@ -131,15 +139,16 @@ public class ReservationServer {
             confirmFlightSelection(oos, ois);
         }
 
-        private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
-            Object obj = ois.readObject();
-            while (obj instanceof String) {
-                if ("\\".equals((String) obj)) {
+        private void confirmFlightSelection(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
+                ClassNotFoundException {
+            Object object = ois.readObject();
+            while (object instanceof String) {
+                if ("\\".equals((String) object)) {
                     handleSpecialCase(oos, ois);
                 }
-                obj = ois.readObject();
+                object = ois.readObject();
             }
-            boolean confirm = (boolean) obj;
+            boolean confirm = (boolean) object;
             if (confirm) {
                 generateBoardingPass(oos, ois);
             } else {
@@ -149,15 +158,16 @@ public class ReservationServer {
             }
         }
 
-        private void generateBoardingPass(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
-            Object obj = ois.readObject();
-            while (obj instanceof String) {
-                if ("\\".equals((String) obj)) {
+        private void generateBoardingPass(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
+                ClassNotFoundException {
+            Object o = ois.readObject();
+            while (o instanceof String) {
+                if ("\\".equals((String) o)) {
                     handleSpecialCase(oos, ois);
                 }
-                obj = ois.readObject();
+                o = ois.readObject();
             }
-            Passenger passenger = (Passenger) obj;
+            Passenger passenger = (Passenger) o;
             ServerMethods.addPassengers(airline, passenger);
             ServerMethods.updatePassengerDetails(airline);
             holdCount--;
@@ -167,7 +177,8 @@ public class ReservationServer {
             finalConfirmation(oos, ois);
         }
 
-        private void finalConfirmation(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        private void finalConfirmation(ObjectOutputStream oos, ObjectInputStream ois) throws IOException,
+                ClassNotFoundException {
             while (true) {
                 Airline save = ServerMethods.updateAirline(airline);
                 ArrayList arrayList = save.getPassengerDetails();

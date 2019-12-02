@@ -56,6 +56,12 @@ public class ReservationClient {
         new ReservationClient();
     }
 
+    /**
+     * Response Listener - CS 180 Project 5
+     *
+     * @author Aryan Wadhwani, Gowri Harish, CS 18000
+     * @version 15th November 2019
+     */
     private static class ResponseListener {
         private Socket socket;
         private String serverStopListeningString = "DONE";
@@ -246,6 +252,12 @@ public class ReservationClient {
             }
         }
 
+        /**
+         * Key Action - CS 180 Project 5
+         *
+         * @author Aryan Wadhwani, Gowri Harish, CS 18000
+         * @version 15th November 2019
+         */
         private class KeyAction extends AbstractAction {
 
             public KeyAction(String actionCommand) {

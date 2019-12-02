@@ -129,13 +129,13 @@ public abstract class Airline implements Serializable {
         passengerDetails.add(passenger);
     }
 
-    protected synchronized void addPassengers(Passenger passenger, String airplaneName) throws Exception {
+    protected synchronized void addPassengers(Passenger passenger, String airlineName) throws Exception {
         if (numPassengers >= maxPassengers) {
             throw new Exception("You should not be here.");
         }
         numPassengers++;
         passenger.setBoardingPass(gate, airplaneFullName);
-        ServerMethods.writeToFile(airplaneName, passenger);
+        ServerMethods.writeToFile(airlineName, passenger);
     }
 }
 

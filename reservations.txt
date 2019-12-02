@@ -4,13 +4,19 @@ Alaska passenger list
 
 
 DELTA
-0/200
+2/200
 Delta passenger list
+I. VILANI, 12
+---------------------DELTA
+H. HELLO, 1
+---------------------DELTA
 
 
 SOUTHWEST
-0/100
+1/100
 Southwest passenger list
+A. DQS, 12
+---------------------SOUTHWEST
 
 
 EOF
